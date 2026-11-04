@@ -1,7 +1,7 @@
 import Logo from '../Logo'
 import NavLinks from './NavLinks'
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FiHeart } from "react-icons/fi";
+import { FiHeart, FiUser, FiLogOut } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import { useCallback, useState, useEffect } from 'react';
 import MobileMenu from './MobileMenu';
@@ -14,7 +14,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const { cartCount, wishlist, openCart } = useStore()
+  const { cartCount, wishlist, openCart, user, logout } = useStore()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -80,6 +80,36 @@ export default function Header() {
               </span>
             )}
           </button>
+
+          {/* User Auth indicator */}
+          {user ? (
+            <div className="hidden sm:flex items-center gap-2 pl-2">
+              <div 
+                onClick={() => navigate('/signUp')}
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#2df8c5]/10 border border-[#2df8c5]/30 text-[#2df8c5] font-mono text-xs cursor-pointer hover:border-[#2df8c5]"
+                title={user.email}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2df8c5] animate-pulse" />
+                <span className="font-bold truncate max-w-[85px]">{user.name}</span>
+              </div>
+              <button
+                onClick={logout}
+                className="p-1.5 text-slate-500 hover:text-[#ff0055] transition-colors"
+                title="Disconnect Account"
+                aria-label="Logout"
+              >
+                <FiLogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate('/signUp')}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-[#2df8c5] border border-[#2df8c5]/30 hover:bg-[#2df8c5]/10 transition-colors ml-1"
+            >
+              <FiUser size={13} />
+              Login
+            </button>
+          )}
 
           {/* Mobile hamburger */}
           <button

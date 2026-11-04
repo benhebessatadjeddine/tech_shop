@@ -1,60 +1,101 @@
-# E-Commerce React App
+# NexusRig ⚡ // Cyberpunk PC Hardware & Battlestations
 
-[DEMO](https://ecommerce-template-omega.vercel.app/)
+[![React](https://img.shields.io/badge/React-18.3-blue.svg?logo=react)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF.svg?logo=vite)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC.svg?logo=tailwind-css)](https://tailwindcss.com/)
+[![Three.js](https://img.shields.io/badge/Three.js-R3F-black.svg?logo=three.js)](https://docs.pmnd.rs/react-three-fiber)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-FF0055.svg?logo=framer)](https://www.framer.com/motion/)
 
-## Description
+> A high-performance single-page e-commerce application for elite custom gaming rigs, liquid-cooled hardware, and esports peripherals, built with a cutting-edge cyberpunk aesthetic.
 
-A single-page application (SPA) for an e-commerce website, developed using React, React Router, and Tailwind CSS. The app provides a seamless shopping experience with features like responsive design and dark mode.
+---
 
-## Features
+## ✨ Features
 
-- **Home Page**: Includes a slider, flash sales, and product categories.
-- **Responsive Design**: Fully responsive layout with dark mode support.
-- **SPA Architecture**: Smooth navigation using React Router.
-- **Custom Icons**: Integrated with React Icons for consistent and scalable iconography.
+- **Cyberpunk Visual Architecture**: Dynamic glitch typography, ambient neon orbs, scanlines, and an animated noise shader overlay.
+- **Three.js Ambient 3D Meshes**: Real-time rotating abstract geometries powered by `@react-three/fiber` and `@react-three/drei`.
+- **Physics-Based 3D Card Hover**: Product cards calculate cursor angle and apply responsive 3D tilt with Framer Motion spring physics.
+- **Cybernetic Terminal Boot Sequence**: Fast initialization screen with terminal status log, system diagnostics, progress bar, and instant `ESC` skip.
+- **Cart Drawer & Global State**: Slide-over cart drawer with quantity adjustments, free shipping threshold calculations, and persistent `localStorage` synchronization.
+- **Wishlist Protocol**: Save favorite hardware drops with one-click toggling, persisted across sessions.
+- **Real-Time Catalog Filtering & Search**: Instant filter by category, sort by price/rating, and URL-synchronized search parameters.
+- **Mainframe Authentication**: Level 4 clearance sign-in and registration flow with active operator session indicators.
+- **Interactive Checkout Flow**: Field validation, delivery cost calculations, and order confirmation dispatch.
+- **Performance Optimized**: Route-level code splitting (`React.lazy`), throttled mousemove spark trails, and zero ESLint errors.
 
-## Technologies Used
+---
 
-- **React**: For building user interfaces.
-- **React Router**: For client-side routing.
-- **Tailwind CSS**: For responsive styling.
-- **Vite**: Used instead of CRA for faster project setup and build times.
-- **React Icons**: For incorporating scalable icons.
+## 🛠️ Tech Stack
 
-## Installation
+- **Framework**: [React 18](https://react.dev/) (Vite bundler)
+- **Routing**: [React Router v6](https://reactrouter.com/) (Data-driven routes with page transition wrappers)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [DaisyUI](https://daisyui.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **3D Graphics**: [Three.js](https://threejs.org/) + [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
+- **Carousels**: [Swiper](https://swiperjs.com/) (Autoplay & fade transitions)
+- **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v14.x or higher)
+- Node.js (v18.x or higher recommended)
 - npm or yarn
 
-### Setup
+### Installation
 
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/parsa-sbg/Ecommerce-template.git
+   git clone https://github.com/benhebessatadjeddine/tech_shop.git
+   cd tech_shop
+   ```
 
-2. install dependencies:
-    ```bash
-    npm install
-    or
-    yarn install
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-3. run the development server:
-    ```bash
-    npm run dev
-    or
-    yarn run dev
-## screenshots :
+3. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
 
-<br/>
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
 
-<img src="./public/screenshots/Screenshot1.png" />
+5. **Run ESLint**:
+   ```bash
+   npm run lint
+   ```
 
-<br/>
+---
 
-<img src="./public/screenshots/Screenshot2.png" />
+## 📂 Project Structure
 
-<br/>
+```
+tech_shop/
+├── public/                 # Static assets, branding, and product imagery
+├── src/
+│   ├── components/         # Reusable UI components
+│   │   ├── Header/         # Navigation, search modal, user status
+│   │   ├── Home/           # Hero slider, 3D canvas, flash deals, product cards
+│   │   ├── About/          # Statistics & Master Builder cards
+│   │   ├── BootScreen.jsx  # Cyberpunk terminal boot sequence
+│   │   ├── CartDrawer.jsx  # Slide-over shopping cart
+│   │   └── CursorTrail.jsx # Ambient cursor particle trail
+│   ├── context/            # StoreContext (Cart, Wishlist, User, Toasts)
+│   ├── data/               # Product catalog specifications
+│   ├── pages/              # Routed pages (Home, Products, Detail, Checkout, etc.)
+│   ├── routes.jsx          # Lazy-loaded route architecture
+│   └── App.jsx             # Main shell
+```
 
-<img src="./public/screenshots/Screenshot3.png"/>
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).

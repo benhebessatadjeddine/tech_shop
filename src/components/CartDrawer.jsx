@@ -65,7 +65,7 @@ export default function CartDrawer() {
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-mono text-slate-200 line-clamp-1 mb-1">{item.title}</p>
-                      <p className="text-[#ff0055] font-bold text-sm">{item.price} DA</p>
+                      <p className="text-[#ff0055] font-bold text-sm">{item.price.toLocaleString()} DA</p>
                       {/* Qty controls */}
                       <div className="flex items-center gap-2 mt-2">
                         <button

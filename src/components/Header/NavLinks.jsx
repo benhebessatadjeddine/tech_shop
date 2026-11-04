@@ -2,14 +2,7 @@ import propTypes from 'prop-types'
 import { memo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-
-const LINKS = [
-  { to: '/', label: 'Home' },
-  { to: '/products', label: 'Shop' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
-  { to: '/signUp', label: 'Sign Up' },
-]
+import { useStore } from '../../context/StoreContext'
 
 const itemVariants = {
   open: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } },
@@ -18,11 +11,20 @@ const itemVariants = {
 
 const NavLinks = memo(({ className, toggleMenu }) => {
   const { pathname } = useLocation()
+  const { user } = useStore()
+
+  const links = [
+    { to: '/', label: 'Home' },
+    { to: '/products', label: 'Shop' },
+    { to: '/about', label: 'About' },
+    { to: '/contact', label: 'Contact' },
+    { to: '/signUp', label: user ? 'Account' : 'Sign Up' },
+  ]
 
   return (
     <nav>
       <ul className={className}>
-        {LINKS.map(({ to, label }) => {
+        {links.map(({ to, label }) => {
           const active = pathname === to
           return (
             <motion.li 
@@ -52,6 +54,10 @@ const NavLinks = memo(({ className, toggleMenu }) => {
 })
 
 NavLinks.displayName = 'NavLinks'
-NavLinks.propTypes = { className: propTypes.string, toggleMenu: propTypes.func }
+
+NavLinks.propTypes = {
+  className: propTypes.string,
+  toggleMenu: propTypes.func
+}
 
 export default NavLinks

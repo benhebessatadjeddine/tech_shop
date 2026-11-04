@@ -1,10 +1,25 @@
+import { useState } from "react";
 import { FaTelegram } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useStore } from "../context/StoreContext";
 
 export default function Footer() {
+    const [email, setEmail] = useState("")
+    const { triggerToast } = useStore()
+
+    const handleSubscribe = (e) => {
+        e.preventDefault()
+        if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+            triggerToast("Please enter a valid email address")
+            return
+        }
+        triggerToast(`Hardware drops intelligence will be sent to ${email}`)
+        setEmail("")
+    }
+
     return (
         <footer className="bg-[#050508] text-slate-300 pt-20 pb-8 border-t border-[#2df8c5]/20 relative overflow-hidden mt-10">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-[#2df8c5]/50 to-transparent" />
@@ -24,34 +39,40 @@ export default function Footer() {
                     </p>
                     <div className="flex flex-col gap-2 mt-2">
                         <span className="text-[#2df8c5] font-mono text-sm font-bold uppercase tracking-widest">Subscribe to Drops</span>
-                        <div className="flex border border-[#2df8c5]/30 focus-within:border-[#2df8c5] transition-colors max-w-sm">
-                            <input type="email" placeholder="Enter your email" className="bg-[#0c0f1a] w-full px-4 py-2 font-mono text-sm text-white outline-none" />
-                            <button className="bg-[#2df8c5] text-black px-4 py-2 font-mono text-sm font-bold hover:bg-white transition-colors">Join</button>
-                        </div>
+                        <form onSubmit={handleSubscribe} className="flex border border-[#2df8c5]/30 focus-within:border-[#2df8c5] transition-colors max-w-sm">
+                            <input 
+                                type="email" 
+                                placeholder="Enter your email" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="bg-[#0c0f1a] w-full px-4 py-2 font-mono text-sm text-white outline-none placeholder:text-slate-600" 
+                            />
+                            <button type="submit" className="bg-[#2df8c5] text-black px-4 py-2 font-mono text-sm font-bold hover:bg-white transition-colors">Join</button>
+                        </form>
                     </div>
                 </div>
 
                 <nav className="flex flex-col gap-4">
                     <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">Support</h6>
-                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors cursor-pointer font-mono">16000 Cyber St, Algiers, AL 16000</span>
-                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors cursor-pointer font-mono">support@nexusrig.dz</span>
-                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors cursor-pointer font-mono">+213 550 00 00 00</span>
+                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">16000 Cyber St, Algiers, AL 16000</span>
+                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">support@nexusrig.dz</span>
+                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">+213 550 00 00 00</span>
                 </nav>
 
                 <nav className="flex flex-col gap-4">
                     <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">Account</h6>
                     <Link to={'/products'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Shop All</Link>
-                    <Link to={'/register'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Register</Link>
-                    <Link to={'/login'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Login</Link>
+                    <Link to={'/signUp'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Register</Link>
+                    <Link to={'/signUp'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Login</Link>
                     <Link to={'/wishlist'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Wishlist</Link>
                 </nav>
 
                 <nav className="flex flex-col gap-4">
                     <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">Socials</h6>
                     <div className="flex items-center gap-5">
-                        <motion.a href="#" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" ><FaTelegram size={24} /></motion.a>
-                        <motion.a href="#" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" ><FaInstagram size={24} /></motion.a>
-                        <motion.a href="#" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" ><FaLinkedin size={24} /></motion.a>
+                        <motion.a href="https://t.me" target="_blank" rel="noopener noreferrer" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" aria-label="Telegram"><FaTelegram size={24} /></motion.a>
+                        <motion.a href="https://instagram.com" target="_blank" rel="noopener noreferrer" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" aria-label="Instagram"><FaInstagram size={24} /></motion.a>
+                        <motion.a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" aria-label="LinkedIn"><FaLinkedin size={24} /></motion.a>
                     </div>
                 </nav>
             </div>

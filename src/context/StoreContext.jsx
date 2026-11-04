@@ -10,7 +10,6 @@ const load = (key, fallback) => {
 
 function reducer(state, action) {
   switch (action.type) {
-
     case 'CART_ADD': {
       const exists = state.cart.find(i => i.id === action.product.id)
       const cart = exists
@@ -36,9 +35,16 @@ function reducer(state, action) {
         : [...state.wishlist, action.product]
       return { ...state, wishlist }
     }
+    case 'WISH_CLEAR':
+      return { ...state, wishlist: [] }
 
     case 'CART_OPEN':  return { ...state, cartOpen: true }
     case 'CART_CLOSE': return { ...state, cartOpen: false }
+
+    case 'USER_SET':
+      return { ...state, user: action.user }
+    case 'USER_LOGOUT':
+      return { ...state, user: null }
 
     case 'TOAST':
       return { ...state, toast: action.msg }
@@ -53,6 +59,7 @@ export function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, {
     cart: load('nexus_cart', []),
     wishlist: load('nexus_wish', []),
+    user: load('nexus_user', null),
     cartOpen: false,
     toast: null,
   })
@@ -60,6 +67,13 @@ export function StoreProvider({ children }) {
   // Persist to localStorage
   useEffect(() => { localStorage.setItem('nexus_cart', JSON.stringify(state.cart)) }, [state.cart])
   useEffect(() => { localStorage.setItem('nexus_wish', JSON.stringify(state.wishlist)) }, [state.wishlist])
+  useEffect(() => {
+    if (state.user) {
+      localStorage.setItem('nexus_user', JSON.stringify(state.user))
+    } else {
+      localStorage.removeItem('nexus_user')
+    }
+  }, [state.user])
 
   // Auto-dismiss toast
   useEffect(() => {
@@ -80,19 +94,36 @@ export function StoreProvider({ children }) {
   const openCart = () => dispatch({ type: 'CART_OPEN' })
   const closeCart = () => dispatch({ type: 'CART_CLOSE' })
   const toggleWishlist = (product) => dispatch({ type: 'WISH_TOGGLE', product })
+  const clearWishlist = () => {
+    dispatch({ type: 'WISH_CLEAR' })
+    dispatch({ type: 'TOAST', msg: 'Wishlist cleared' })
+  }
   const isWished = (id) => state.wishlist.some(i => i.id === id)
+
+  const login = (userData) => {
+    dispatch({ type: 'USER_SET', user: userData })
+    dispatch({ type: 'TOAST', msg: `Access Granted: Welcome, ${userData.name || 'OPERATOR'}` })
+  }
+
+  const logout = () => {
+    dispatch({ type: 'USER_LOGOUT' })
+    dispatch({ type: 'TOAST', msg: 'Session terminated' })
+  }
+
+  const triggerToast = (msg) => dispatch({ type: 'TOAST', msg })
 
   const cartCount = state.cart.reduce((s, i) => s + i.qty, 0)
   const cartTotal = state.cart.reduce((s, i) => s + i.price * i.qty, 0)
 
   return (
     <StoreContext.Provider value={{
-      cart: state.cart, wishlist: state.wishlist,
+      cart: state.cart, wishlist: state.wishlist, user: state.user,
       cartOpen: state.cartOpen, toast: state.toast,
       cartCount, cartTotal,
       addToCart, removeFromCart, changeQty, clearCart,
       openCart, closeCart,
-      toggleWishlist, isWished,
+      toggleWishlist, clearWishlist, isWished,
+      login, logout, triggerToast,
     }}>
       {children}
     </StoreContext.Provider>

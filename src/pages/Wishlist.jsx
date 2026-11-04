@@ -6,7 +6,7 @@ import SectionHeader from '../components/Home/SectionHeader'
 import { FiHeart } from 'react-icons/fi'
 
 export default function Wishlist() {
-  const { wishlist, toggleWishlist } = useStore()
+  const { wishlist, toggleWishlist, clearWishlist } = useStore()
 
   return (
     <motion.div
@@ -18,6 +18,7 @@ export default function Wishlist() {
         flagName={`${wishlist.length} saved`}
         title="WISHLIST"
         isNeedViewAllBtn={wishlist.length > 0}
+        viewAllTo="/products"
       />
 
       {wishlist.length === 0 ? (
@@ -46,7 +47,7 @@ export default function Wishlist() {
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              onClick={() => wishlist.forEach(p => toggleWishlist(p))}
+              onClick={clearWishlist}
               className="border border-[#ff0055]/40 text-[#ff0055] font-mono text-xs px-6 py-3 uppercase tracking-widest hover:bg-[#ff0055]/10 transition-colors"
             >
               Clear Wishlist

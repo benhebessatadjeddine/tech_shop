@@ -1,7 +1,8 @@
 {
-  "name": "ecommerce-template",
+  "name": "nexus-rig",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "NexusRig — Cyberpunk PC Hardware & Battlestations E-Commerce Experience",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -4,6 +4,7 @@ const COLORS = ['#2df8c5', '#2df8c5', '#2df8c5', '#ff0055', '#7d2df8']
 
 // Inject keyframes once into document
 const injectStyles = () => {
+  if (typeof document === 'undefined') return
   if (document.getElementById('cursor-trail-styles')) return
   const style = document.createElement('style')
   style.id = 'cursor-trail-styles'
@@ -17,7 +18,7 @@ const injectStyles = () => {
       pointer-events: none;
       border-radius: 50%;
       z-index: 9999;
-      animation: cursor-spark 0.55s ease-out forwards;
+      animation: cursor-spark 0.45s ease-out forwards;
     }
   `
   document.head.appendChild(style)
@@ -28,19 +29,27 @@ export default function CursorTrail() {
   const throttleRef = useRef(0)
 
   useEffect(() => {
-    injectStyles()
+    // Only enable cursor sparks on desktop devices with fine pointer (mouse)
+    if (!window.matchMedia('(pointer: fine)').matches) return
 
+    injectStyles()
     const container = containerRef.current
+    if (!container) return
 
     const onMove = (e) => {
       const now = Date.now()
-      // Throttle: only spawn a particle every ~30ms (≈33 per second max)
-      if (now - throttleRef.current < 30) return
+      // Throttle: only spawn a particle every ~45ms (approx 20 per second max)
+      if (now - throttleRef.current < 45) return
       throttleRef.current = now
 
-      const size = 4 + Math.random() * 6
+      // Cap max particles in DOM to avoid accumulation
+      if (container.children.length > 25) {
+        container.removeChild(container.firstChild)
+      }
+
+      const size = 3 + Math.random() * 5
       const color = COLORS[Math.floor(Math.random() * COLORS.length)]
-      const duration = 450 + Math.random() * 200
+      const duration = 380 + Math.random() * 150
 
       const dot = document.createElement('div')
       dot.className = 'cursor-spark'
@@ -56,12 +65,11 @@ export default function CursorTrail() {
 
       container.appendChild(dot)
 
-      // Auto-remove after animation completes
       setTimeout(() => {
         if (dot.parentNode === container) {
           container.removeChild(dot)
         }
-      }, duration + 50)
+      }, duration)
     }
 
     window.addEventListener('mousemove', onMove, { passive: true })

@@ -7,6 +7,24 @@ import ManagerBox from "../components/About/ManagerBox";
 import OurServices from '../components/OurServices/OurServices'
 import { motion } from "framer-motion"
 
+const BUILDERS = [
+  {
+    name: "Tarek Benali",
+    jobPosition: "Principal Systems Architect",
+    imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop"
+  },
+  {
+    name: "Yasmine Khelil",
+    jobPosition: "Custom Thermal & Loop Specialist",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop"
+  },
+  {
+    name: "Amine Zerrouk",
+    jobPosition: "Overclocking & Hardware QA Lead",
+    imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop"
+  }
+]
+
 export default function About() {
   return (
     <motion.div 
@@ -34,7 +52,6 @@ export default function About() {
         </div>
       </div>
 
-
       {/* statistics */}
       <div className="grid grid-cols-12 mt-32 gap-5 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#2df8c5]/5 to-transparent border-y border-[#2df8c5]/20 -mx-4 px-4 py-10 -z-10" />
@@ -44,8 +61,24 @@ export default function About() {
         <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" ><StatisticItem number={12} desc={'M Annual Revenue'} Icon={FaSackDollar} /></div>
       </div>
 
-
-
+      {/* Engineering Team */}
+      <div className="mt-32">
+        <div className="flex items-center gap-4 mb-4">
+          <span className="w-3 h-8 rounded-sm bg-[#2df8c5] shadow-[0_0_15px_rgba(45,248,197,0.6)] block"></span>
+          <span className="text-[#2df8c5] font-mono tracking-widest font-bold uppercase">Mainframe Engineers</span>
+        </div>
+        <h2 className="text-3xl font-extrabold text-white font-mono tracking-tight">MASTER BUILDERS</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+          {BUILDERS.map((builder) => (
+            <ManagerBox 
+              key={builder.name} 
+              name={builder.name} 
+              jobPosition={builder.jobPosition} 
+              imageUrl={builder.imageUrl} 
+            />
+          ))}
+        </div>
+      </div>
 
       {/* services */}
       <div className="mb-20 mt-32 pt-10 border-t border-[#ff0055]/20 bg-gradient-to-t from-[#ff0055]/5 to-transparent">

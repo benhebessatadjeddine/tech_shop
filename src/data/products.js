@@ -1,7 +1,7 @@
 export const PRODUCTS = [
   {
     id: 1, category: 'prebuilts', subCategory: 'PC',
-    title: 'Nexus Titan Elite', price: 2199, priceBeforeOff: 2499, offPercent: 12,
+    title: 'Nexus Titan Elite', price: 320000, priceBeforeOff: 350000, offPercent: 9,
     rating: 5, reviews: 142,
     tags: ['PC', 'Gaming', 'RTX 4080'],
     imageUrl: '/assets/images/ourproductsImages/128de216cb19b573260e642ef12a95f3.png',
@@ -10,7 +10,7 @@ export const PRODUCTS = [
   },
   {
     id: 2, category: 'components', subCategory: 'Motherboard',
-    title: 'Aorus Z790 Master X', price: 499, priceBeforeOff: 550, offPercent: 9,
+    title: 'Aorus Z790 Master X', price: 75000, priceBeforeOff: 82000, offPercent: 9,
     rating: 4.5, reviews: 89,
     tags: ['Motherboard', 'Aorus', 'DDR5'],
     imageUrl: '/assets/images/ourproductsImages/1c02b275bdb40f825b4c93b1bd1ebb80.png',
@@ -19,7 +19,7 @@ export const PRODUCTS = [
   },
   {
     id: 3, category: 'components', subCategory: 'GPU',
-    title: 'ROG Strix RTX 4090 OC', price: 1999, priceBeforeOff: null, offPercent: null,
+    title: 'ROG Strix RTX 4090 OC', price: 380000, priceBeforeOff: null, offPercent: null,
     rating: 5, reviews: 312,
     tags: ['GPU', 'NVIDIA', '4K'],
     imageUrl: '/assets/images/ourproductsImages/1c0c1a4fca5e6ed1e0cecb5f90d8b86b.png',
@@ -28,7 +28,7 @@ export const PRODUCTS = [
   },
   {
     id: 4, category: 'keyboards', subCategory: 'Keyboard',
-    title: 'Cyber Deck V2 Mechanical', price: 159, priceBeforeOff: 189, offPercent: 15,
+    title: 'Cyber Deck V2 Mechanical', price: 22000, priceBeforeOff: 26000, offPercent: 15,
     rating: 4.8, reviews: 204,
     tags: ['Keyboard', 'Mechanical', 'Wireless'],
     imageUrl: '/assets/images/ourproductsImages/1da41002bdd0179a9aadb9dd86d4490f.png',
@@ -37,7 +37,7 @@ export const PRODUCTS = [
   },
   {
     id: 5, category: 'mouses', subCategory: 'Mouse',
-    title: 'Viper Ultra-Light Wireless', price: 129, priceBeforeOff: null, offPercent: null,
+    title: 'Viper Ultra-Light Wireless', price: 16500, priceBeforeOff: null, offPercent: null,
     rating: 4.6, reviews: 415,
     tags: ['Mouse', 'Wireless', 'Esports'],
     imageUrl: '/assets/images/ourproductsImages/247870ed0f616e7eb119678b80c26dee.png',
@@ -46,7 +46,7 @@ export const PRODUCTS = [
   },
   {
     id: 6, category: 'monitors', subCategory: 'Monitor',
-    title: 'Alienware 34 Curved OLED', price: 999, priceBeforeOff: 1199, offPercent: 16,
+    title: 'Alienware 34 Curved OLED', price: 185000, priceBeforeOff: 210000, offPercent: 12,
     rating: 5, reviews: 178,
     tags: ['Monitor', 'OLED', 'Ultrawide'],
     imageUrl: '/assets/images/ourproductsImages/261442c0c24d890a8eaa5b31244fe910.png',
@@ -55,7 +55,7 @@ export const PRODUCTS = [
   },
   {
     id: 7, category: 'headsets', subCategory: 'Headset',
-    title: 'HyperX Cloud Pro Wireless', price: 149, priceBeforeOff: 179, offPercent: 17,
+    title: 'HyperX Cloud Pro Wireless', price: 24000, priceBeforeOff: 28000, offPercent: 14,
     rating: 4.5, reviews: 322,
     tags: ['Headset', 'Wireless', '7.1 Audio'],
     imageUrl: '/assets/images/ourproductsImages/29c38fc58e6a56f28d1d14b7bb955701.png',
@@ -64,7 +64,7 @@ export const PRODUCTS = [
   },
   {
     id: 8, category: 'components', subCategory: 'Cooling',
-    title: 'Kraken 360mm AIO Cooler', price: 219, priceBeforeOff: null, offPercent: null,
+    title: 'Kraken 360mm AIO Cooler', price: 35000, priceBeforeOff: null, offPercent: null,
     rating: 4.7, reviews: 156,
     tags: ['Cooling', 'Liquid', 'AIO'],
     imageUrl: '/assets/images/ourproductsImages/2bdc97b8381dd061709d982a0eeef062.png',
@@ -73,7 +73,7 @@ export const PRODUCTS = [
   },
   {
     id: 9, category: 'components', subCategory: 'Power Supply',
-    title: 'Thor 1000W Platinum ATX3.0', price: 289, priceBeforeOff: 329, offPercent: 12,
+    title: 'Thor 1000W Platinum ATX3.0', price: 48000, priceBeforeOff: 54000, offPercent: 11,
     rating: 5, reviews: 92,
     tags: ['PSU', '1000W', 'Platinum'],
     imageUrl: '/assets/images/ourproductsImages/49e26bec744e194a419de6d814cd7b2f.png',
@@ -82,7 +82,7 @@ export const PRODUCTS = [
   },
   {
     id: 10, category: 'components', subCategory: 'RAM',
-    title: 'Trident Z5 RGB 64GB', price: 239, priceBeforeOff: 289, offPercent: 17,
+    title: 'Trident Z5 RGB 64GB', price: 38000, priceBeforeOff: 44000, offPercent: 14,
     rating: 4.8, reviews: 115,
     tags: ['RAM', 'DDR5', '64GB'],
     imageUrl: '/assets/images/ourproductsImages/823b2123ae7dac5a26adb4bdf9166886.png',
@@ -91,7 +91,7 @@ export const PRODUCTS = [
   },
   {
     id: 11, category: 'prebuilts', subCategory: 'Case',
-    title: 'Lian Li O11 Vision', price: 139, priceBeforeOff: null, offPercent: null,
+    title: 'Lian Li O11 Vision', price: 25000, priceBeforeOff: null, offPercent: null,
     rating: 4.9, reviews: 240,
     tags: ['Case', 'Mid Tower', 'Glass'],
     imageUrl: '/assets/images/ourproductsImages/e3169f813f9ebc2b477f31f8fa93d919.png',
@@ -100,7 +100,7 @@ export const PRODUCTS = [
   },
   {
     id: 12, category: 'components', subCategory: 'Storage',
-    title: 'Samsung 990 Pro 2TB NVMe', price: 169, priceBeforeOff: 199, offPercent: 15,
+    title: 'Samsung 990 Pro 2TB NVMe', price: 28000, priceBeforeOff: 33000, offPercent: 15,
     rating: 5, reviews: 502,
     tags: ['Storage', 'SSD', 'NVMe'],
     imageUrl: '/assets/images/ourproductsImages/e4166693b213c4ed6f4ddbc5c28753d0.png',
@@ -109,7 +109,7 @@ export const PRODUCTS = [
   },
   {
     id: 13, category: 'mouses', subCategory: 'Mousepad',
-    title: 'Artisan Zero XL Soft', price: 65, priceBeforeOff: null, offPercent: null,
+    title: 'Artisan Zero XL Soft', price: 9500, priceBeforeOff: null, offPercent: null,
     rating: 4.9, reviews: 310,
     tags: ['Mousepad', 'Cloth', 'Esports'],
     imageUrl: '/assets/images/ourproductsImages/febea4741ca30ce69ecd16bd554b787b.png',

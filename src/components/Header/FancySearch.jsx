@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import propTypes from 'prop-types'
 
 const FancySearch = ({ onClose }) => {
   const [value, setValue] = useState('')
@@ -335,5 +336,9 @@ const StyledWrapper = styled.div`
     top: 15px;
   }
 `
+
+FancySearch.propTypes = {
+  onClose: propTypes.func
+}
 
 export default FancySearch

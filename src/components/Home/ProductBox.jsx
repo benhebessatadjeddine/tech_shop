@@ -146,9 +146,9 @@ export default function ProductBox({ product }) {
           {title}
         </h3>
         <div className='flex items-center gap-3'>
-          <span className='text-[#ff0055] font-bold'>{price} DA</span>
+          <span className='text-[#ff0055] font-bold'>{price.toLocaleString()} DA</span>
           {priceBeforeOff && (
-            <span className='line-through text-slate-500 text-sm'>{priceBeforeOff} DA</span>
+            <span className='line-through text-slate-500 text-sm'>{priceBeforeOff.toLocaleString()} DA</span>
           )}
         </div>
         <div className='flex items-center gap-0.5'>

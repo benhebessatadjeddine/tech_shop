@@ -86,7 +86,7 @@ export default function Contact() {
             <div className="h-full flex flex-col items-center justify-center gap-4 py-12 text-center">
               <div className="text-4xl">✓</div>
               <h3 className="font-mono font-bold text-[#2df8c5] text-xl uppercase tracking-widest">Message Sent</h3>
-              <p className="text-slate-400 font-mono text-sm max-w-xs">We'll get back to you at <span className="text-[#2df8c5]">{form.email}</span> within 2 hours.</p>
+              <p className="text-slate-400 font-mono text-sm max-w-xs">We&apos;ll get back to you at <span className="text-[#2df8c5]">{form.email}</span> within 2 hours.</p>
               <button onClick={() => setSent(false)} className="cyber-btn px-6 py-2.5 text-xs mt-2">Send Another</button>
             </div>
           ) : (

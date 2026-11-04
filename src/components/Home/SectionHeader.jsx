@@ -1,6 +1,7 @@
 import propTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
-export default function SectionHeader({ flagName, title, isNeedViewAllBtn }) {
+export default function SectionHeader({ flagName, title, isNeedViewAllBtn, viewAllTo = '/products' }) {
     return (
         <div className="flex justify-between items-end gap-4">
             <div className="flex flex-col gap-3">
@@ -13,9 +14,9 @@ export default function SectionHeader({ flagName, title, isNeedViewAllBtn }) {
                 </h2>
             </div>
             {isNeedViewAllBtn && (
-                <button className="hidden sm:block cyber-btn px-5 py-2.5 text-xs whitespace-nowrap">
+                <Link to={viewAllTo} className="hidden sm:block cyber-btn px-5 py-2.5 text-xs whitespace-nowrap">
                     View All
-                </button>
+                </Link>
             )}
         </div>
     )
@@ -25,4 +26,5 @@ SectionHeader.propTypes = {
     flagName: propTypes.string,
     title: propTypes.oneOfType([propTypes.string, propTypes.node]),
     isNeedViewAllBtn: propTypes.bool,
+    viewAllTo: propTypes.string,
 }
