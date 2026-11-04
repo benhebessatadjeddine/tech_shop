@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { FiMinus, FiPlus, FiTrash2, FiShoppingBag } from 'react-icons/fi'
 
 export default function Checkout() {
-  const { cart, cartTotal, cartCount, removeFromCart, changeQty, clearCart } = useStore()
+  const { cart, cartTotal, cartCount, removeFromCart, changeQty, clearCart, formatPrice, t } = useStore()
   const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', address: '', city: '', card: '' })
   const [errors, setErrors] = useState({})
@@ -51,19 +51,27 @@ export default function Checkout() {
       <div className="w-20 h-20 rounded-full bg-[#2df8c5]/15 flex items-center justify-center border-2 border-[#2df8c5] shadow-[0_0_30px_rgba(45,248,197,0.4)]">
         <FiShoppingBag className="text-[#2df8c5]" size={36} />
       </div>
-      <h2 className="text-3xl font-extrabold text-white glitch-text" data-text="ORDER CONFIRMED">ORDER CONFIRMED</h2>
-      <p className="text-slate-400 font-mono max-w-md">Your order has been placed successfully. You will receive a confirmation at <span className="text-[#2df8c5]">{form.email}</span></p>
-      <Link to="/" className="cyber-btn px-8 py-3.5 text-sm">Back to Store</Link>
+      <h2 className="text-3xl font-extrabold text-white glitch-text" data-text={t('checkout.orderConfirmed')}>
+        {t('checkout.orderConfirmed')}
+      </h2>
+      <p className="text-slate-400 font-mono max-w-md">
+        {t('checkout.confirmationMsg')} <span className="text-[#2df8c5]">{form.email}</span>
+      </p>
+      <Link to="/" className="cyber-btn px-8 py-3.5 text-sm">{t('checkout.backToStore')}</Link>
     </motion.div>
   )
 
   if (cart.length === 0) return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 text-slate-400 font-mono">
       <FiShoppingBag size={48} className="opacity-25" />
-      <p className="text-sm uppercase tracking-widest">Your cart is empty</p>
-      <Link to="/products" className="cyber-btn px-6 py-2.5 text-xs">Browse Products</Link>
+      <p className="text-sm uppercase tracking-widest">{t('cart.empty')}</p>
+      <Link to="/products" className="cyber-btn px-6 py-2.5 text-xs">{t('cart.browse')}</Link>
     </div>
   )
+
+  const isFreeShipping = cartTotal >= 150
+  const shippingCost = isFreeShipping ? 0 : 10
+  const finalTotal = cartTotal + shippingCost
 
   return (
     <motion.div
@@ -73,61 +81,77 @@ export default function Checkout() {
     >
       <div className="flex items-center gap-3 mb-10">
         <span className="block w-3 h-8 bg-[#ff0055] shadow-[0_0_12px_rgba(255,0,85,0.7)]" />
-        <h1 className="text-3xl font-extrabold text-white tracking-tight">CHECKOUT</h1>
-        <span className="ml-auto font-mono text-slate-400 text-sm">{cartCount} items</span>
+        <h1 className="text-3xl font-extrabold text-white tracking-tight">{t('checkout.title')}</h1>
+        <span className="ml-auto font-mono text-slate-400 text-sm">{cartCount} {t('checkout.items')}</span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Order details */}
         <div className="glass border border-[#2df8c5]/15 p-6 space-y-4">
-          <h3 className="font-mono font-bold text-[#2df8c5] uppercase tracking-widest text-sm mb-4">Order Summary</h3>
+          <h3 className="font-mono font-bold text-[#2df8c5] uppercase tracking-widest text-sm mb-4">
+            {t('checkout.orderSummary')}
+          </h3>
           {cart.map(item => (
             <div key={item.id} className="flex gap-4 pb-4 border-b border-[#2df8c5]/8">
               <img src={item.imageUrl} alt={item.title} className="w-14 h-14 object-cover flex-shrink-0 bg-[#0c0f1a]" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-mono text-slate-200 line-clamp-1">{item.title}</p>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <button onClick={() => changeQty(item.id, -1)} className="w-6 h-6 border border-[#2df8c5]/30 text-[#2df8c5] hover:bg-[#2df8c5]/10 text-xs flex items-center justify-center">
+                  <button 
+                    onClick={() => changeQty(item.id, -1)} 
+                    className="w-6 h-6 border border-[#2df8c5]/30 text-[#2df8c5] hover:bg-[#2df8c5]/10 text-xs flex items-center justify-center"
+                    aria-label="Decrease quantity"
+                  >
                     <FiMinus size={10} />
                   </button>
                   <span className="font-mono text-white text-xs w-5 text-center">{item.qty}</span>
-                  <button onClick={() => changeQty(item.id, 1)} className="w-6 h-6 border border-[#2df8c5]/30 text-[#2df8c5] hover:bg-[#2df8c5]/10 text-xs flex items-center justify-center">
+                  <button 
+                    onClick={() => changeQty(item.id, 1)} 
+                    className="w-6 h-6 border border-[#2df8c5]/30 text-[#2df8c5] hover:bg-[#2df8c5]/10 text-xs flex items-center justify-center"
+                    aria-label="Increase quantity"
+                  >
                     <FiPlus size={10} />
                   </button>
                 </div>
               </div>
               <div className="flex flex-col items-end justify-between">
-                <button onClick={() => removeFromCart(item.id)} className="text-slate-600 hover:text-[#ff0055] transition-colors">
+                <button 
+                  onClick={() => removeFromCart(item.id)} 
+                  className="text-slate-600 hover:text-[#ff0055] transition-colors"
+                  aria-label="Remove item"
+                >
                   <FiTrash2 size={14} />
                 </button>
-                <span className="font-bold text-white font-mono text-sm">{(item.price * item.qty).toLocaleString()} DA</span>
+                <span className="font-bold text-white font-mono text-sm">{formatPrice(item.price * item.qty)}</span>
               </div>
             </div>
           ))}
           <div className="flex justify-between pt-2">
-            <span className="font-mono text-slate-400 uppercase tracking-widest text-sm">Shipping</span>
-            <span className="font-mono text-[#2df8c5] text-sm">{cartTotal >= 20000 ? 'FREE' : '1500 DA'}</span>
+            <span className="font-mono text-slate-400 uppercase tracking-widest text-sm">{t('cart.shipping')}</span>
+            <span className="font-mono text-[#2df8c5] text-sm">{isFreeShipping ? t('cart.free') : formatPrice(10)}</span>
           </div>
           <div className="flex justify-between pt-1 border-t border-[#2df8c5]/15">
-            <span className="font-mono text-white font-bold uppercase tracking-widest">Total</span>
+            <span className="font-mono text-white font-bold uppercase tracking-widest">{t('cart.total')}</span>
             <span className="font-black text-2xl text-white">
-              {(cartTotal >= 20000 ? cartTotal : cartTotal + 1500).toLocaleString()} DA
+              {formatPrice(finalTotal)}
             </span>
           </div>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="glass border border-[#ff0055]/15 p-6 space-y-5">
-          <h3 className="font-mono font-bold text-[#ff0055] uppercase tracking-widest text-sm mb-4">Shipping & Payment</h3>
-          {field('name', 'Full Name')}
-          {field('email', 'Email Address', 'email')}
-          {field('address', 'Street Address')}
-          {field('city', 'City & Zip Code')}
+          <h3 className="font-mono font-bold text-[#ff0055] uppercase tracking-widest text-sm mb-4">
+            {t('checkout.shippingPayment')}
+          </h3>
+          {field('name', t('checkout.fullName'))}
+          {field('email', t('checkout.email'), 'email')}
+          {field('address', t('checkout.address'))}
+          {field('city', t('checkout.city'))}
           <div className="flex flex-col gap-1">
             <input
               type="text"
               maxLength={19}
-              placeholder="Card Number (16 digits)"
+              placeholder={t('checkout.cardNumber')}
               value={form.card.replace(/(\d{4})/g, '$1 ').trim()}
               onChange={e => { setForm(f => ({ ...f, card: e.target.value.replace(/\s/g, '') })); setErrors(er => ({ ...er, card: '' })) }}
               className={`w-full bg-transparent border-b-2 py-3 px-1 text-white font-mono text-sm placeholder:text-slate-600 focus:outline-none transition-colors ${
@@ -136,9 +160,9 @@ export default function Checkout() {
             />
             {errors.card && <span className="text-[#ff0055] text-xs font-mono">{errors.card}</span>}
           </div>
-          <p className="text-xs text-slate-600 font-mono">This is a demo. No real payment is processed.</p>
+          <p className="text-xs text-slate-600 font-mono">{t('checkout.demoNote')}</p>
           <button type="submit" className="w-full cyber-btn py-4 text-sm mt-4">
-            Place Order
+            {t('checkout.placeOrder')}
           </button>
         </form>
       </div>

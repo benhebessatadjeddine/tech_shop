@@ -8,42 +8,79 @@ import { BsMouse } from "react-icons/bs"
 import { CiHeadphones } from "react-icons/ci"
 import { LuGamepad } from "react-icons/lu"
 import { FaAngleRight } from "react-icons/fa6"
+import { useStore } from "../../context/StoreContext"
 
-const MENU = [
-  {
-    id: 1, name: 'PCs', cat: 'prebuilts',
-    Icon: HiOutlineComputerDesktop,
-    subs: ['Entry Level', 'Enthusiast Rigs', 'Custom Watercooled', 'Mini ITX'],
-  },
-  {
-    id: 2, name: 'Keyboards', cat: 'keyboards',
-    Icon: BsMotherboard,
-    subs: ['Mechanical', 'Optical', 'Barebones', 'Custom Keycaps', 'Switches'],
-  },
-  {
-    id: 3, name: 'Mouses', cat: 'mouses',
-    Icon: BsMouse,
-    subs: ['Wireless', 'Wired', 'Ultra-lightweight', 'MMO/MOBA', 'Mousepads'],
-  },
-  {
-    id: 4, name: 'Headsets', cat: 'headsets',
-    Icon: CiHeadphones,
-    subs: ['Wireless Headsets', 'Wired Headsets', 'In-Ear Monitors', 'Studio Microphones'],
-  },
-  {
-    id: 5, name: 'Monitors', cat: 'monitors',
-    Icon: CiMonitor,
-    subs: ['1080p 240Hz+', '1440p 165Hz', '4K 144Hz', 'Ultrawide', 'OLED Gaming'],
-  },
-  {
-    id: 6, name: 'Components', cat: 'components',
-    Icon: LuGamepad,
-    subs: ['Graphics Cards (GPU)', 'Processors (CPU)', 'Motherboards', 'RAM / Memory'],
-  },
-]
+const MENU_DATA = {
+  en: [
+    {
+      id: 1, name: 'PCs', cat: 'prebuilts',
+      Icon: HiOutlineComputerDesktop,
+      subs: ['Entry Level', 'Enthusiast Rigs', 'Custom Watercooled', 'Mini ITX'],
+    },
+    {
+      id: 2, name: 'Keyboards', cat: 'keyboards',
+      Icon: BsMotherboard,
+      subs: ['Mechanical', 'Optical', 'Barebones', 'Custom Keycaps', 'Switches'],
+    },
+    {
+      id: 3, name: 'Mouses', cat: 'mouses',
+      Icon: BsMouse,
+      subs: ['Wireless', 'Wired', 'Ultra-lightweight', 'MMO/MOBA', 'Mousepads'],
+    },
+    {
+      id: 4, name: 'Headsets', cat: 'headsets',
+      Icon: CiHeadphones,
+      subs: ['Wireless Headsets', 'Wired Headsets', 'In-Ear Monitors', 'Studio Microphones'],
+    },
+    {
+      id: 5, name: 'Monitors', cat: 'monitors',
+      Icon: CiMonitor,
+      subs: ['1080p 240Hz+', '1440p 165Hz', '4K 144Hz', 'Ultrawide', 'OLED Gaming'],
+    },
+    {
+      id: 6, name: 'Components', cat: 'components',
+      Icon: LuGamepad,
+      subs: ['Graphics Cards (GPU)', 'Processors (CPU)', 'Motherboards', 'RAM / Memory'],
+    },
+  ],
+  it: [
+    {
+      id: 1, name: 'PC Fissi', cat: 'prebuilts',
+      Icon: HiOutlineComputerDesktop,
+      subs: ['Entry Level', 'Configurazioni Enthusiast', 'Custom Watercooling', 'Mini ITX'],
+    },
+    {
+      id: 2, name: 'Tastiere', cat: 'keyboards',
+      Icon: BsMotherboard,
+      subs: ['Meccaniche', 'Ottiche', 'Barebone', 'Keycaps Custom', 'Switch'],
+    },
+    {
+      id: 3, name: 'Mouse', cat: 'mouses',
+      Icon: BsMouse,
+      subs: ['Wireless', 'Cablati', 'Ultraleggeri', 'MMO / MOBA', 'Tappetini'],
+    },
+    {
+      id: 4, name: 'Cuffie', cat: 'headsets',
+      Icon: CiHeadphones,
+      subs: ['Cuffie Wireless', 'Cuffie Cablate', 'In-Ear Monitor', 'Microfoni Studio'],
+    },
+    {
+      id: 5, name: 'Monitor', cat: 'monitors',
+      Icon: CiMonitor,
+      subs: ['1080p 240Hz+', '1440p 165Hz', '4K 144Hz', 'Ultrawide', 'Gaming OLED'],
+    },
+    {
+      id: 6, name: 'Componenti', cat: 'components',
+      Icon: LuGamepad,
+      subs: ['Schede Video (GPU)', 'Processori (CPU)', 'Schede Madri', 'RAM / Memorie'],
+    },
+  ]
+}
 
 export default memo(function HomeMenu() {
   const [hoveredId, setHoveredId] = useState(null)
+  const { lang } = useStore()
+  const menu = MENU_DATA[lang] || MENU_DATA.en
 
   return (
     <nav className="relative h-full z-50">
@@ -53,7 +90,7 @@ export default memo(function HomeMenu() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-[#2df8c5]/10 blur-[50px] pointer-events-none" />
 
         <ul className="flex flex-col flex-1 py-3 relative z-10" onMouseLeave={() => setHoveredId(null)}>
-          {MENU.map((item) => (
+          {menu.map((item) => (
             <li
               key={item.id}
               className="relative group/item px-3 py-1"

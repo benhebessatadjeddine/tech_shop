@@ -6,7 +6,7 @@ import SectionHeader from '../components/Home/SectionHeader'
 import { FiHeart } from 'react-icons/fi'
 
 export default function Wishlist() {
-  const { wishlist, toggleWishlist, clearWishlist } = useStore()
+  const { wishlist, toggleWishlist, clearWishlist, t } = useStore()
 
   return (
     <motion.div
@@ -15,8 +15,8 @@ export default function Wishlist() {
       className="relative z-10 py-8 space-y-12"
     >
       <SectionHeader
-        flagName={`${wishlist.length} saved`}
-        title="WISHLIST"
+        flagName={`${wishlist.length} ${t('wishlist.saved')}`}
+        title={t('wishlist.title')}
         isNeedViewAllBtn={wishlist.length > 0}
         viewAllTo="/products"
       />
@@ -24,9 +24,9 @@ export default function Wishlist() {
       {wishlist.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-32 gap-6 text-slate-500">
           <FiHeart size={56} className="opacity-25" />
-          <p className="font-mono text-sm uppercase tracking-widest">Your wishlist is empty</p>
+          <p className="font-mono text-sm uppercase tracking-widest">{t('wishlist.empty')}</p>
           <Link to="/products" className="cyber-btn px-6 py-3 text-xs">
-            Discover Products
+            {t('wishlist.discover')}
           </Link>
         </div>
       ) : (
@@ -50,7 +50,7 @@ export default function Wishlist() {
               onClick={clearWishlist}
               className="border border-[#ff0055]/40 text-[#ff0055] font-mono text-xs px-6 py-3 uppercase tracking-widest hover:bg-[#ff0055]/10 transition-colors"
             >
-              Clear Wishlist
+              {t('wishlist.clear')}
             </button>
           </div>
         </>

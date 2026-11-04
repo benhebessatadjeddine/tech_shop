@@ -6,26 +6,29 @@ import { FaSackDollar } from "react-icons/fa6";
 import ManagerBox from "../components/About/ManagerBox";
 import OurServices from '../components/OurServices/OurServices'
 import { motion } from "framer-motion"
+import { useStore } from "../context/StoreContext";
 
 const BUILDERS = [
   {
-    name: "Tarek Benali",
+    name: "Matteo Rossi",
     jobPosition: "Principal Systems Architect",
     imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop"
   },
   {
-    name: "Yasmine Khelil",
+    name: "Giulia Bianchi",
     jobPosition: "Custom Thermal & Loop Specialist",
     imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop"
   },
   {
-    name: "Amine Zerrouk",
+    name: "Marco Ferrari",
     jobPosition: "Overclocking & Hardware QA Lead",
     imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop"
   }
 ]
 
 export default function About() {
+  const { t, lang } = useStore()
+
   return (
     <motion.div 
       initial={{ opacity: 0 }} 
@@ -40,11 +43,13 @@ export default function About() {
         <div className="flex flex-col justify-center col-span-2 sm:col-span-1 order-1">
           <div className="flex items-center gap-4 mb-4">
               <span className="w-3 h-8 rounded-sm bg-[#ff0055] shadow-[0_0_15px_rgba(255,0,85,0.6)] block"></span>
-              <span className="text-[#ff0055] font-mono tracking-widest font-bold uppercase">Our Protocol</span>
+              <span className="text-[#ff0055] font-mono tracking-widest font-bold uppercase">{t('about.protocol')}</span>
           </div>
-          <h1 className="font-extrabold text-4xl tracking-tighter text-white glitch-effect" data-text="THE NEXUS STORY">THE NEXUS STORY</h1>
-          <p className="mt-5 text-slate-300 font-mono">Launched in 2026, NexusRig is the premier destination for elite PC hardware and custom cooling loops. Born from a passion for extreme overclocking and cyberpunk aesthetics, we have scaled to become the most trusted hardware vendor in the digital underground.</p>
-          <p className="mt-5 text-slate-300 font-mono">With over 5,000 custom builds shipped globally, we provide hardware enthusiasts with unrestricted access to the most powerful components on the market. From AI-accelerated GPUs to custom mechanical switches, NexusRig equips you for the future.</p>
+          <h1 className="font-extrabold text-4xl tracking-tighter text-white glitch-effect" data-text={t('about.storyTitle')}>
+            {t('about.storyTitle')}
+          </h1>
+          <p className="mt-5 text-slate-300 font-mono leading-relaxed">{t('about.story1')}</p>
+          <p className="mt-5 text-slate-300 font-mono leading-relaxed">{t('about.story2')}</p>
         </div>
         <div className="col-span-2 sm:col-span-1 sm:order-3 relative group">
           <div className="absolute inset-0 bg-[#2df8c5]/20 blur-[50px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -55,19 +60,27 @@ export default function About() {
       {/* statistics */}
       <div className="grid grid-cols-12 mt-32 gap-5 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#2df8c5]/5 to-transparent border-y border-[#2df8c5]/20 -mx-4 px-4 py-10 -z-10" />
-        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" ><StatisticItem number={5} desc={'Active Master Builders'} Icon={CiShop} /></div>
-        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" ><StatisticItem number={300} desc={'Monthly Custom Rigs'} Icon={PiCurrencyCircleDollarLight} /></div>
-        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" ><StatisticItem number={45.5} desc={'K Active Users'} Icon={IoGiftSharp} /></div>
-        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" ><StatisticItem number={12} desc={'M Annual Revenue'} Icon={FaSackDollar} /></div>
+        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" >
+          <StatisticItem number={6} desc={lang === 'it' ? 'Master Builder Attivi' : 'Active Master Builders'} Icon={CiShop} />
+        </div>
+        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" >
+          <StatisticItem number={350} desc={lang === 'it' ? 'Rig Custom al Mese' : 'Monthly Custom Rigs'} Icon={PiCurrencyCircleDollarLight} />
+        </div>
+        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" >
+          <StatisticItem number={48.5} desc={lang === 'it' ? 'K Utenti Attivi' : 'K Active Users'} Icon={IoGiftSharp} />
+        </div>
+        <div className="col-span-6 md:col-span-4 lg:col-span-3 hover-lift" >
+          <StatisticItem number={15} desc={lang === 'it' ? 'M Fatturato Annuo €' : 'M Annual Revenue €'} Icon={FaSackDollar} />
+        </div>
       </div>
 
       {/* Engineering Team */}
       <div className="mt-32">
         <div className="flex items-center gap-4 mb-4">
           <span className="w-3 h-8 rounded-sm bg-[#2df8c5] shadow-[0_0_15px_rgba(45,248,197,0.6)] block"></span>
-          <span className="text-[#2df8c5] font-mono tracking-widest font-bold uppercase">Mainframe Engineers</span>
+          <span className="text-[#2df8c5] font-mono tracking-widest font-bold uppercase">{t('about.buildersTag')}</span>
         </div>
-        <h2 className="text-3xl font-extrabold text-white font-mono tracking-tight">MASTER BUILDERS</h2>
+        <h2 className="text-3xl font-extrabold text-white font-mono tracking-tight">{t('about.buildersTitle')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
           {BUILDERS.map((builder) => (
             <ManagerBox 

@@ -6,7 +6,7 @@ import { FiHeart, FiShoppingCart } from "react-icons/fi"
 import { useStore } from "../../context/StoreContext"
 
 export default function MobileMenu({ isOpen, toggleMenu }) {
-  const { cartCount, wishlist, openCart } = useStore()
+  const { cartCount, wishlist, openCart, lang, setLang, t } = useStore()
 
   return (
     <AnimatePresence>
@@ -40,8 +40,31 @@ export default function MobileMenu({ isOpen, toggleMenu }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="border-t border-[#2df8c5]/10 pt-8 flex flex-col gap-5 mt-10"
+              className="border-t border-[#2df8c5]/10 pt-6 flex flex-col gap-4 mt-8"
             >
+              {/* Language switcher */}
+              <div className="flex items-center justify-between p-3 bg-[#0c0f1a] border border-[#2df8c5]/20 font-mono text-xs">
+                <span className="text-slate-400 uppercase tracking-widest">Language / Lingua:</span>
+                <div className="flex border border-[#2df8c5]/30 rounded-sm overflow-hidden font-bold">
+                  <button
+                    onClick={() => setLang('it')}
+                    className={`px-3 py-1.5 transition-colors ${
+                      lang === 'it' ? 'bg-[#2df8c5] text-black' : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    IT
+                  </button>
+                  <button
+                    onClick={() => setLang('en')}
+                    className={`px-3 py-1.5 transition-colors ${
+                      lang === 'en' ? 'bg-[#2df8c5] text-black' : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    EN
+                  </button>
+                </div>
+              </div>
+
               <Link
                 to="/wishlist"
                 onClick={toggleMenu}
@@ -49,7 +72,7 @@ export default function MobileMenu({ isOpen, toggleMenu }) {
               >
                 <div className="flex items-center gap-3">
                   <FiHeart size={20} />
-                  <span>Wishlist</span>
+                  <span>{t('wishlist.title')}</span>
                 </div>
                 {wishlist.length > 0 && <span className="text-[#ff0055] font-bold">{wishlist.length}</span>}
               </Link>
@@ -60,7 +83,7 @@ export default function MobileMenu({ isOpen, toggleMenu }) {
               >
                 <div className="flex items-center gap-3">
                   <FiShoppingCart size={20} />
-                  <span>Cart</span>
+                  <span>{t('cart.title')}</span>
                 </div>
                 {cartCount > 0 && <span className="bg-black text-[#2df8c5] px-2 py-0.5">{cartCount}</span>}
               </button>

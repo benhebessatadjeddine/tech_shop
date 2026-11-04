@@ -16,6 +16,7 @@
 - **Three.js Ambient 3D Meshes**: Real-time rotating abstract geometries powered by `@react-three/fiber` and `@react-three/drei`.
 - **Physics-Based 3D Card Hover**: Product cards calculate cursor angle and apply responsive 3D tilt with Framer Motion spring physics.
 - **Cybernetic Terminal Boot Sequence**: Fast initialization screen with terminal status log, system diagnostics, progress bar, and instant `ESC` skip.
+- **Multilingual Support (Italian & English)**: Real-time i18n language toggle (`IT` / `EN`), localized product specs, Milan tech hub contact info, and Euro (`€`) pricing.
 - **Cart Drawer & Global State**: Slide-over cart drawer with quantity adjustments, free shipping threshold calculations, and persistent `localStorage` synchronization.
 - **Wishlist Protocol**: Save favorite hardware drops with one-click toggling, persisted across sessions.
 - **Real-Time Catalog Filtering & Search**: Instant filter by category, sort by price/rating, and URL-synchronized search parameters.

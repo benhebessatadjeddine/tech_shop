@@ -14,7 +14,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const { cartCount, wishlist, openCart, user, logout } = useStore()
+  const { cartCount, wishlist, openCart, user, logout, lang, setLang, t } = useStore()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -41,13 +41,41 @@ export default function Header() {
         <NavLinks className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-[#2df8c5]" />
 
         {/* Actions */}
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
+
+          {/* Language Switcher Pill */}
+          <div className="flex items-center border border-[#2df8c5]/30 rounded-sm overflow-hidden font-mono text-[11px] font-bold">
+            <button
+              type="button"
+              onClick={() => setLang('it')}
+              className={`px-2 py-1 transition-colors ${
+                lang === 'it'
+                  ? 'bg-[#2df8c5] text-black shadow-[0_0_8px_rgba(45,248,197,0.7)]'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              }`}
+              title="Lingua Italiana"
+            >
+              IT
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang('en')}
+              className={`px-2 py-1 transition-colors ${
+                lang === 'en'
+                  ? 'bg-[#2df8c5] text-black shadow-[0_0_8px_rgba(45,248,197,0.7)]'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              }`}
+              title="English Language"
+            >
+              EN
+            </button>
+          </div>
 
           {/* Search toggle */}
           <button
             type="button"
             onClick={() => setSearchOpen(v => !v)}
-            className={`p-2.5 transition-colors ${searchOpen ? 'text-[#ff0055]' : 'text-[#2df8c5] hover:text-[#ff0055]'} hover:bg-white/5`}
+            className={`p-2 transition-colors ${searchOpen ? 'text-[#ff0055]' : 'text-[#2df8c5] hover:text-[#ff0055]'} hover:bg-white/5`}
             aria-label="Search"
           >
             <FaSearch size={15} />
@@ -56,12 +84,12 @@ export default function Header() {
           {/* Wishlist */}
           <button
             onClick={() => navigate('/wishlist')}
-            className="relative p-2.5 text-[#2df8c5] hover:text-[#ff0055] hover:bg-white/5 transition-colors"
+            className="relative p-2 text-[#2df8c5] hover:text-[#ff0055] hover:bg-white/5 transition-colors"
             aria-label="Wishlist"
           >
             <FiHeart size={18} />
             {wishlist.length > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 flex items-center justify-center bg-[#ff0055] text-white text-[9px] font-bold rounded-full shadow-[0_0_8px_rgba(255,0,85,0.7)]">
+              <span className="absolute top-0.5 right-0.5 w-4 h-4 flex items-center justify-center bg-[#ff0055] text-white text-[9px] font-bold rounded-full shadow-[0_0_8px_rgba(255,0,85,0.7)]">
                 {wishlist.length > 9 ? '9+' : wishlist.length}
               </span>
             )}
@@ -70,12 +98,12 @@ export default function Header() {
           {/* Cart */}
           <button
             onClick={openCart}
-            className="relative p-2.5 text-[#2df8c5] hover:text-[#ff0055] hover:bg-white/5 transition-colors"
+            className="relative p-2 text-[#2df8c5] hover:text-[#ff0055] hover:bg-white/5 transition-colors"
             aria-label="Cart"
           >
             <AiOutlineShoppingCart size={20} />
             {cartCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 flex items-center justify-center bg-[#ff0055] text-white text-[9px] font-bold rounded-full shadow-[0_0_8px_rgba(255,0,85,0.7)] animate-pulse">
+              <span className="absolute top-0.5 right-0.5 w-4 h-4 flex items-center justify-center bg-[#ff0055] text-white text-[9px] font-bold rounded-full shadow-[0_0_8px_rgba(255,0,85,0.7)] animate-pulse">
                 {cartCount > 9 ? '9+' : cartCount}
               </span>
             )}
@@ -83,7 +111,7 @@ export default function Header() {
 
           {/* User Auth indicator */}
           {user ? (
-            <div className="hidden sm:flex items-center gap-2 pl-2">
+            <div className="hidden sm:flex items-center gap-2 pl-1">
               <div 
                 onClick={() => navigate('/signUp')}
                 className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#2df8c5]/10 border border-[#2df8c5]/30 text-[#2df8c5] font-mono text-xs cursor-pointer hover:border-[#2df8c5]"
@@ -95,7 +123,7 @@ export default function Header() {
               <button
                 onClick={logout}
                 className="p-1.5 text-slate-500 hover:text-[#ff0055] transition-colors"
-                title="Disconnect Account"
+                title={t('nav.logout')}
                 aria-label="Logout"
               >
                 <FiLogOut size={16} />
@@ -107,7 +135,7 @@ export default function Header() {
               className="hidden sm:flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-[#2df8c5] border border-[#2df8c5]/30 hover:bg-[#2df8c5]/10 transition-colors ml-1"
             >
               <FiUser size={13} />
-              Login
+              {t('nav.login')}
             </button>
           )}
 

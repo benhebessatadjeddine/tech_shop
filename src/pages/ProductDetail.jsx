@@ -12,15 +12,15 @@ import SectionHeader from '../components/Home/SectionHeader'
 export default function ProductDetail() {
   const { id } = useParams()
   const product = getProductById(id)
-  const { addToCart, toggleWishlist, isWished } = useStore()
+  const { addToCart, toggleWishlist, isWished, formatPrice, t } = useStore()
   const [qty, setQty] = useState(1)
 
   if (!product) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 text-slate-400 font-mono">
         <p className="text-4xl font-black text-[#ff0055]">404</p>
-        <p className="text-sm uppercase tracking-widest">Product not found</p>
-        <Link to="/products" className="cyber-btn px-6 py-2.5 text-xs">Browse Catalog</Link>
+        <p className="text-sm uppercase tracking-widest">{t('product.notFound')}</p>
+        <Link to="/products" className="cyber-btn px-6 py-2.5 text-xs">{t('product.browseCatalog')}</Link>
       </div>
     )
   }
@@ -45,9 +45,9 @@ export default function ProductDetail() {
 
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs font-mono text-slate-500">
-        <Link to="/" className="hover:text-[#2df8c5] transition-colors">Home</Link>
+        <Link to="/" className="hover:text-[#2df8c5] transition-colors">{t('nav.home')}</Link>
         <span>/</span>
-        <Link to="/products" className="hover:text-[#2df8c5] transition-colors">Products</Link>
+        <Link to="/products" className="hover:text-[#2df8c5] transition-colors">{t('nav.shop')}</Link>
         <span>/</span>
         <span className="text-slate-300 truncate max-w-48">{product.title}</span>
       </nav>
@@ -66,7 +66,7 @@ export default function ProductDetail() {
           />
           {product.offPercent && (
             <span className="absolute top-4 left-4 text-xs font-bold px-3 py-1.5 bg-[#ff0055] text-white shadow-[0_0_12px_rgba(255,0,85,0.6)]">
-              -{product.offPercent}% OFF
+              -{product.offPercent}% {t('product.off')}
             </span>
           )}
         </div>
@@ -95,17 +95,19 @@ export default function ProductDetail() {
                                 <FaRegStar key={i} className='text-slate-600 w-4 h-4' />
               ))}
             </div>
-            <span className="font-mono text-sm text-slate-400">({product.reviews} reviews)</span>
+            <span className="font-mono text-sm text-slate-400">({product.reviews} {t('product.reviews')})</span>
           </div>
 
           {/* Price */}
           <div className="flex items-baseline gap-4">
-            <span className="text-3xl font-black text-white">{product.price.toLocaleString()} DA</span>
+            <span className="text-3xl font-black text-white">{formatPrice(product.price)}</span>
             {product.priceBeforeOff && (
-              <span className="line-through text-slate-500 text-lg">{product.priceBeforeOff.toLocaleString()} DA</span>
+              <span className="line-through text-slate-500 text-lg">{formatPrice(product.priceBeforeOff)}</span>
             )}
             {product.offPercent && (
-              <span className="text-[#ff0055] font-bold font-mono text-sm">Save {(product.priceBeforeOff - product.price).toLocaleString()} DA</span>
+              <span className="text-[#ff0055] font-bold font-mono text-sm">
+                {t('product.save')} {formatPrice(product.priceBeforeOff - product.price)}
+              </span>
             )}
           </div>
 
@@ -121,11 +123,13 @@ export default function ProductDetail() {
               <button
                 onClick={() => setQty(q => Math.max(1, q - 1))}
                 className="w-10 h-11 flex items-center justify-center text-[#2df8c5] hover:bg-[#2df8c5]/10 transition-colors font-bold"
+                aria-label="Decrease quantity"
               >-</button>
               <span className="w-10 text-center font-mono text-white">{qty}</span>
               <button
                 onClick={() => setQty(q => q + 1)}
                 className="w-10 h-11 flex items-center justify-center text-[#2df8c5] hover:bg-[#2df8c5]/10 transition-colors font-bold"
+                aria-label="Increase quantity"
               >+</button>
             </div>
 
@@ -133,7 +137,7 @@ export default function ProductDetail() {
               onClick={() => { for (let i = 0; i < qty; i++) addToCart(product) }}
               className="flex-1 cyber-btn py-3.5 text-sm min-w-[160px]"
             >
-              Add to Cart
+              {t('product.addToCart')}
             </button>
 
             <button
@@ -150,25 +154,27 @@ export default function ProductDetail() {
           </div>
 
           {/* Guarantees */}
-          <div className="grid grid-cols-2 gap-3 mt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
             <div className="flex items-center gap-3 p-3 bg-[#0c0f1a] border border-[#2df8c5]/10">
               <HiOutlineTruck className="text-[#2df8c5] flex-shrink-0" size={20} />
-              <span className="font-mono text-xs text-slate-400">Free shipping on orders 20000 DA+</span>
+              <span className="font-mono text-xs text-slate-400">{t('product.freeShippingNote')}</span>
             </div>
             <div className="flex items-center gap-3 p-3 bg-[#0c0f1a] border border-[#2df8c5]/10">
               <HiOutlineShieldCheck className="text-[#2df8c5] flex-shrink-0" size={20} />
-              <span className="font-mono text-xs text-slate-400">2-Year warranty included</span>
+              <span className="font-mono text-xs text-slate-400">{t('product.warranty')}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Related products */}
+      {/* Related Products */}
       {related.length > 0 && (
-        <div>
-          <SectionHeader flagName="You may also like" title="RELATED GEAR" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
-            {related.map(p => <ProductBox key={p.id} product={p} />)}
+        <div className="space-y-8 pt-8 border-t border-[#2df8c5]/15">
+          <SectionHeader flagName="Arsenal" title={t('product.relatedGear')} />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+            {related.map(p => (
+              <ProductBox key={p.id} product={p} />
+            ))}
           </div>
         </div>
       )}

@@ -5,13 +5,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products'
 import ProductBox from '../components/Home/ProductBox'
 import SectionHeader from '../components/Home/SectionHeader'
 import { FiSearch } from 'react-icons/fi'
-
-const SORTS = [
-  { label: 'Featured', value: 'default' },
-  { label: 'Price: Low → High', value: 'price_asc' },
-  { label: 'Price: High → Low', value: 'price_desc' },
-  { label: 'Top Rated', value: 'rating' },
-]
+import { useStore } from '../context/StoreContext'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -19,6 +13,7 @@ const fadeUp = {
 }
 
 export default function Products() {
+  const { t, lang } = useStore()
   const [searchParams, setSearchParams] = useSearchParams()
   const initialCat = searchParams.get('category') || 'all'
   const initialSearch = searchParams.get('search') || ''
@@ -33,6 +28,13 @@ export default function Products() {
     if (urlCat) setActiveCategory(urlCat)
     if (urlSearch !== null) setSearch(urlSearch)
   }, [searchParams])
+
+  const sorts = [
+    { label: t('sorts.default'), value: 'default' },
+    { label: t('sorts.price_asc'), value: 'price_asc' },
+    { label: t('sorts.price_desc'), value: 'price_desc' },
+    { label: t('sorts.rating'), value: 'rating' },
+  ]
 
   const filtered = useMemo(() => {
     let list = PRODUCTS
@@ -64,7 +66,10 @@ export default function Products() {
       <div className="orb-cyan fixed top-[10%] right-[5%] w-[28vw] h-[28vw] bg-[#2df8c5]/6 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <motion.div variants={fadeUp}>
-        <SectionHeader flagName="Our Catalog" title="ALL PRODUCTS" />
+        <SectionHeader 
+          flagName={lang === 'it' ? 'Il Nostro Catalogo' : 'Our Catalog'} 
+          title={lang === 'it' ? 'TUTTI I PRODOTTI' : 'ALL PRODUCTS'} 
+        />
       </motion.div>
 
       {/* Controls bar */}
@@ -74,7 +79,7 @@ export default function Products() {
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#2df8c5] transition-colors" size={16} />
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder={t('product.searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2.5 bg-[#0c0f1a] border border-[#2df8c5]/20 text-white font-mono text-sm placeholder:text-slate-600 focus:outline-none focus:border-[#2df8c5]/60 transition-colors"
@@ -86,7 +91,7 @@ export default function Products() {
           onChange={e => setSort(e.target.value)}
           className="bg-[#0c0f1a] border border-[#2df8c5]/20 text-slate-300 font-mono text-sm px-4 py-2.5 focus:outline-none focus:border-[#2df8c5]/60 transition-colors"
         >
-          {SORTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+          {sorts.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
         </select>
       </motion.div>
 
@@ -102,22 +107,22 @@ export default function Products() {
                 : 'border-[#2df8c5]/20 text-slate-400 hover:border-[#2df8c5]/50 hover:text-[#2df8c5]'
             }`}
           >
-            {cat.label}
+            {t(`categories.${cat.id}`, cat.label)}
           </button>
         ))}
       </motion.div>
 
       {/* Results count */}
       <motion.p variants={fadeUp} className="font-mono text-xs text-slate-500 uppercase tracking-widest">
-        {filtered.length} product{filtered.length !== 1 ? 's' : ''} found
+        {filtered.length} {lang === 'it' ? `prodott${filtered.length === 1 ? 'o' : 'i'} trovat${filtered.length === 1 ? 'o' : 'i'}` : `product${filtered.length !== 1 ? 's' : ''} found`}
       </motion.p>
 
       {/* Grid */}
       {filtered.length === 0 ? (
         <motion.div variants={fadeUp} className="py-24 text-center font-mono text-slate-500">
-          <p className="text-lg">No products match your search.</p>
+          <p className="text-lg">{lang === 'it' ? 'Nessun prodotto corrisponde alla tua ricerca.' : 'No products match your search.'}</p>
           <button onClick={() => { setSearch(''); setActiveCategory('all') }} className="mt-4 text-[#2df8c5] hover:text-white transition-colors text-sm">
-            Clear filters
+            {lang === 'it' ? 'Azzera filtri' : 'Clear filters'}
           </button>
         </motion.div>
       ) : (

@@ -1,5 +1,7 @@
-import { createContext, useContext, useReducer, useEffect } from 'react'
+import { createContext, useContext, useReducer, useEffect, useCallback } from 'react'
 import propTypes from 'prop-types'
+import { getTranslation } from '../data/translations'
+import { formatPrice } from '../data/products'
 
 const StoreContext = createContext(null)
 
@@ -46,6 +48,9 @@ function reducer(state, action) {
     case 'USER_LOGOUT':
       return { ...state, user: null }
 
+    case 'LANG_SET':
+      return { ...state, lang: action.lang }
+
     case 'TOAST':
       return { ...state, toast: action.msg }
     case 'TOAST_CLEAR':
@@ -60,6 +65,7 @@ export function StoreProvider({ children }) {
     cart: load('nexus_cart', []),
     wishlist: load('nexus_wish', []),
     user: load('nexus_user', null),
+    lang: load('nexus_lang', 'it'), // Default to Italian per user request
     cartOpen: false,
     toast: null,
   })
@@ -67,6 +73,7 @@ export function StoreProvider({ children }) {
   // Persist to localStorage
   useEffect(() => { localStorage.setItem('nexus_cart', JSON.stringify(state.cart)) }, [state.cart])
   useEffect(() => { localStorage.setItem('nexus_wish', JSON.stringify(state.wishlist)) }, [state.wishlist])
+  useEffect(() => { localStorage.setItem('nexus_lang', JSON.stringify(state.lang)) }, [state.lang])
   useEffect(() => {
     if (state.user) {
       localStorage.setItem('nexus_user', JSON.stringify(state.user))
@@ -82,10 +89,19 @@ export function StoreProvider({ children }) {
     return () => clearTimeout(t)
   }, [state.toast])
 
+  const setLang = (lang) => {
+    dispatch({ type: 'LANG_SET', lang })
+    dispatch({ type: 'TOAST', msg: lang === 'it' ? 'Lingua impostata su Italiano' : 'Language set to English' })
+  }
+
+  const t = useCallback((path, fallback) => {
+    return getTranslation(state.lang, path, fallback)
+  }, [state.lang])
+
   const addToCart = (product) => {
     dispatch({ type: 'CART_ADD', product })
     dispatch({ type: 'CART_OPEN' })
-    dispatch({ type: 'TOAST', msg: `${product.title} added to cart` })
+    dispatch({ type: 'TOAST', msg: `${product.title} ${state.lang === 'it' ? 'aggiunto al carrello' : 'added to cart'}` })
   }
 
   const removeFromCart = (id) => dispatch({ type: 'CART_REMOVE', id })
@@ -96,18 +112,18 @@ export function StoreProvider({ children }) {
   const toggleWishlist = (product) => dispatch({ type: 'WISH_TOGGLE', product })
   const clearWishlist = () => {
     dispatch({ type: 'WISH_CLEAR' })
-    dispatch({ type: 'TOAST', msg: 'Wishlist cleared' })
+    dispatch({ type: 'TOAST', msg: state.lang === 'it' ? 'Lista desideri svuotata' : 'Wishlist cleared' })
   }
   const isWished = (id) => state.wishlist.some(i => i.id === id)
 
   const login = (userData) => {
     dispatch({ type: 'USER_SET', user: userData })
-    dispatch({ type: 'TOAST', msg: `Access Granted: Welcome, ${userData.name || 'OPERATOR'}` })
+    dispatch({ type: 'TOAST', msg: state.lang === 'it' ? `Accesso consentito: Benvenuto, ${userData.name || 'OPERATORE'}` : `Access Granted: Welcome, ${userData.name || 'OPERATOR'}` })
   }
 
   const logout = () => {
     dispatch({ type: 'USER_LOGOUT' })
-    dispatch({ type: 'TOAST', msg: 'Session terminated' })
+    dispatch({ type: 'TOAST', msg: state.lang === 'it' ? 'Sessione terminata' : 'Session terminated' })
   }
 
   const triggerToast = (msg) => dispatch({ type: 'TOAST', msg })
@@ -118,6 +134,7 @@ export function StoreProvider({ children }) {
   return (
     <StoreContext.Provider value={{
       cart: state.cart, wishlist: state.wishlist, user: state.user,
+      lang: state.lang, setLang, t, formatPrice,
       cartOpen: state.cartOpen, toast: state.toast,
       cartCount, cartTotal,
       addToCart, removeFromCart, changeQty, clearCart,

@@ -3,40 +3,11 @@ import './HomeSlider.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { useStore } from '../../../context/StoreContext'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
-
-const SLIDES = [
-  {
-    img: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?q=80&w=1200&auto=format&fit=crop',
-    tag: 'New Drop',
-    title: 'BUILD YOUR\nBATTLESTATION',
-    sub: 'Premium custom rigs engineered for total domination.',
-    cta: 'Shop Prebuilts',
-    to: '/products?category=prebuilts',
-    accent: '#2df8c5',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1200&auto=format&fit=crop',
-    tag: 'Esports Grade',
-    title: 'PERIPHERALS\nTHAT PERFORM',
-    sub: 'Mice, keyboards, and headsets tuned for peak precision.',
-    cta: 'Browse Peripherals',
-    to: '/products?category=mouses',
-    accent: '#ff0055',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1603481546238-487240415921?q=80&w=1200&auto=format&fit=crop',
-    tag: 'Flash Deal',
-    title: '4K GAMING\nREDEFINED',
-    sub: 'RTX 4090 builds shipping now. Limited units available.',
-    cta: 'View Deals',
-    to: '/products',
-    accent: '#7d2df8',
-  },
-]
 
 const textVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -48,6 +19,37 @@ const textVariants = {
 
 export default function HomeSlider() {
   const navigate = useNavigate()
+  const { t } = useStore()
+
+  const slides = [
+    {
+      img: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?q=80&w=1200&auto=format&fit=crop',
+      tag: t('hero.slide1Tag'),
+      title: t('hero.slide1Title'),
+      sub: t('hero.slide1Sub'),
+      cta: t('hero.slide1Cta'),
+      to: '/products?category=prebuilts',
+      accent: '#2df8c5',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1200&auto=format&fit=crop',
+      tag: t('hero.slide2Tag'),
+      title: t('hero.slide2Title'),
+      sub: t('hero.slide2Sub'),
+      cta: t('hero.slide2Cta'),
+      to: '/products?category=mouses',
+      accent: '#ff0055',
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1603481546238-487240415921?q=80&w=1200&auto=format&fit=crop',
+      tag: t('hero.slide3Tag'),
+      title: t('hero.slide3Title'),
+      sub: t('hero.slide3Sub'),
+      cta: t('hero.slide3Cta'),
+      to: '/products',
+      accent: '#7d2df8',
+    },
+  ]
 
   return (
     <div className="h-[340px] sm:h-[420px] md:h-[460px] lg:h-[520px] overflow-hidden group relative">
@@ -60,7 +62,7 @@ export default function HomeSlider() {
         autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
         className="h-full w-full"
       >
-        {SLIDES.map((slide, idx) => (
+        {slides.map((slide, idx) => (
           <SwiperSlide key={idx}>
             {({ isActive }) => (
               <div className="relative h-full w-full overflow-hidden">
@@ -128,22 +130,24 @@ export default function HomeSlider() {
                   </motion.p>
 
                   {/* CTA */}
-                  <motion.button
+                  <motion.div
                     custom={3}
                     variants={textVariants}
                     initial="hidden"
                     animate={isActive ? "visible" : "hidden"}
-                    onClick={() => navigate(slide.to)}
-                    className="w-fit mt-2 px-6 py-3 font-mono text-sm font-bold uppercase tracking-widest text-black transition-all duration-200"
-                    style={{
-                      background: slide.accent,
-                      boxShadow: `0 0 20px ${slide.accent}60`,
-                    }}
-                    whileHover={{ scale: 1.04, boxShadow: `0 0 30px ${slide.accent}90` }}
-                    whileTap={{ scale: 0.97 }}
+                    className="pt-2"
                   >
-                    {slide.cta} →
-                  </motion.button>
+                    <button
+                      onClick={() => navigate(slide.to)}
+                      className="px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-[#050508] transition-all duration-300 hover:scale-105 active:scale-95"
+                      style={{
+                        background: slide.accent,
+                        boxShadow: `0 0 20px ${slide.accent}60`,
+                      }}
+                    >
+                      {slide.cta} →
+                    </button>
+                  </motion.div>
                 </div>
               </div>
             )}

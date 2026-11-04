@@ -8,7 +8,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 export default function ProductBox({ product }) {
   const { title, price, priceBeforeOff, offPercent, isNew, imageUrl, id, rating, badge } = product
-  const { addToCart, toggleWishlist, isWished } = useStore()
+  const { addToCart, toggleWishlist, isWished, formatPrice, t } = useStore()
   const navigate = useNavigate()
   const wished = isWished(id)
 
@@ -135,7 +135,7 @@ export default function ProductBox({ product }) {
             className='absolute bottom-0 left-0 right-0 py-3 bg-[#2df8c5] text-black text-xs font-bold uppercase tracking-widest z-20 translate-y-0 md:translate-y-full group-hover:translate-y-0 transition-transform duration-300'
             style={{ transform: "translateZ(20px)" }}
           >
-            Add to Cart
+            {t('product.addToCart')}
           </button>
         </motion.div>
       </div>
@@ -146,9 +146,9 @@ export default function ProductBox({ product }) {
           {title}
         </h3>
         <div className='flex items-center gap-3'>
-          <span className='text-[#ff0055] font-bold'>{price.toLocaleString()} DA</span>
+          <span className='text-[#ff0055] font-bold'>{formatPrice(price)}</span>
           {priceBeforeOff && (
-            <span className='line-through text-slate-500 text-sm'>{priceBeforeOff.toLocaleString()} DA</span>
+            <span className='line-through text-slate-500 text-sm'>{formatPrice(priceBeforeOff)}</span>
           )}
         </div>
         <div className='flex items-center gap-0.5'>

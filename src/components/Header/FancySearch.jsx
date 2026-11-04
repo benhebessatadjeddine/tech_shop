@@ -2,10 +2,12 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import propTypes from 'prop-types'
+import { useStore } from '../../context/StoreContext'
 
 const FancySearch = ({ onClose }) => {
   const [value, setValue] = useState('')
   const navigate = useNavigate()
+  const { t } = useStore()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -28,7 +30,7 @@ const FancySearch = ({ onClose }) => {
           <div id="main">
             <form onSubmit={handleSubmit}>
               <input
-                placeholder="Search gear..."
+                placeholder={t('product.searchPlaceholder')}
                 type="text"
                 name="text"
                 className="input"

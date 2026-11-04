@@ -8,21 +8,21 @@ export default function SignUp() {
   const [form, setForm] = useState({ username: '', email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
-  const { login } = useStore()
+  const { login, t } = useStore()
   const navigate = useNavigate()
 
   const validate = () => {
     const errs = {}
-    if (!isLogin && !form.username.trim()) errs.username = 'Username is required'
+    if (!isLogin && !form.username.trim()) errs.username = 'Username required'
     if (!form.email.trim()) {
-      errs.email = 'Email is required'
+      errs.email = 'Email required'
     } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-      errs.email = 'Invalid email address'
+      errs.email = 'Valid email required'
     }
     if (!form.password) {
-      errs.password = 'Password is required'
+      errs.password = 'Password required'
     } else if (form.password.length < 6) {
-      errs.password = 'Must be at least 6 characters'
+      errs.password = 'At least 6 characters required'
     }
     return errs
   }
@@ -45,7 +45,7 @@ export default function SignUp() {
       }
       login(user)
       navigate('/')
-    }, 600)
+    }, 500)
   }
 
   const handleGoogleAuth = () => {
@@ -54,11 +54,11 @@ export default function SignUp() {
       setLoading(false)
       login({
         name: 'NexusOperator',
-        email: 'operator@nexusrig.dz',
+        email: 'operator@nexusrig.it',
         level: 'LEVEL 4 CLEARANCE'
       })
       navigate('/')
-    }, 500)
+    }, 400)
   }
 
   return (
@@ -89,10 +89,10 @@ export default function SignUp() {
         <div className="p-8 md:p-16 flex flex-col justify-center bg-[#080b12]/90 backdrop-blur-xl">
           <div className="mb-10 text-center md:text-left">
             <h3 className="text-3xl font-bold font-mono text-white tracking-widest uppercase text-gradient">
-              {isLogin ? 'Initialize Login' : 'Create Access Key'}
+              {isLogin ? t('auth.loginTitle') : t('auth.registerTitle')}
             </h3>
             <p className="mt-3 text-slate-400 font-mono text-sm">
-              {isLogin ? 'Enter your credentials to proceed.' : 'Register a new account on our mainframe.'}
+              {isLogin ? t('auth.loginDesc') : t('auth.registerDesc')}
             </p>
           </div>
 
@@ -147,7 +147,7 @@ export default function SignUp() {
                 disabled={loading}
                 className="w-full cyber-btn py-4 text-sm disabled:opacity-50"
               >
-                {loading ? 'Authenticating...' : (isLogin ? 'Access Account' : 'Register Account')}
+                {loading ? '...' : (isLogin ? t('auth.accessBtn') : t('auth.registerBtn'))}
               </button>
               
               <button 
@@ -156,13 +156,13 @@ export default function SignUp() {
                 disabled={loading}
                 className="w-full border border-slate-700 bg-transparent text-slate-300 py-4 font-bold font-mono tracking-widest hover:border-[#7d2df8] hover:text-[#7d2df8] transition-all text-sm uppercase disabled:opacity-50"
               >
-                Sign In with Google
+                {t('auth.googleBtn')}
               </button>
             </div>
           </form>
 
           <div className="mt-10 text-center font-mono text-sm text-slate-500">
-            {isLogin ? "Don't have access yet? " : "Already registered? "}
+            {isLogin ? t('auth.noAccount') : t('auth.haveAccount')}{' '}
             <button 
               type="button"
               onClick={() => {
@@ -171,7 +171,7 @@ export default function SignUp() {
               }} 
               className="text-[#2df8c5] font-bold hover:text-[#ff0055] transition-colors uppercase border-b border-transparent hover:border-[#ff0055] ml-2"
             >
-              {isLogin ? 'Register Now' : 'Login Here'}
+              {isLogin ? t('auth.registerLink') : t('auth.loginLink')}
             </button>
           </div>
         </div>

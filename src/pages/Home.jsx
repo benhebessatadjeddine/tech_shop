@@ -17,6 +17,7 @@ import NewArrivalBox from "../components/Home/NewArrivalBox"
 import OurServices from "../components/OurServices/OurServices"
 import Floating3D from "../components/Home/Floating3D"
 import { PRODUCTS } from "../data/products"
+import { useStore } from "../context/StoreContext"
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -36,17 +37,18 @@ const catalog = PRODUCTS
   .filter(p => !flashProductsIds.includes(p.id) && !topGearIds.includes(p.id))
   .slice(0, 8)
 
-const CATS = [
-  { id: 'prebuilts',  Svg: HiOutlineComputerDesktop, name: 'PCs' },
-  { id: 'keyboards',  Svg: BsMotherboard,            name: 'Keyboards' },
-  { id: 'mouses',     Svg: BsMouse,                  name: 'Mouses' },
-  { id: 'headsets',   Svg: CiHeadphones,             name: 'Headsets' },
-  { id: 'monitors',   Svg: CiMonitor,                name: 'Monitors' },
-  { id: 'all',        Svg: LuGamepad,                name: 'More...' },
-]
-
 export default function Home() {
   const navigate = useNavigate()
+  const { t, lang } = useStore()
+
+  const cats = [
+    { id: 'prebuilts',  Svg: HiOutlineComputerDesktop, name: t('categories.prebuilts') },
+    { id: 'keyboards',  Svg: BsMotherboard,            name: t('categories.keyboards') },
+    { id: 'mouses',     Svg: BsMouse,                  name: t('categories.mouses') },
+    { id: 'headsets',   Svg: CiHeadphones,             name: t('categories.headsets') },
+    { id: 'monitors',   Svg: CiMonitor,                name: t('categories.monitors') },
+    { id: 'all',        Svg: LuGamepad,                name: lang === 'it' ? 'Altro...' : 'More...' },
+  ]
 
   return (
     <div className="mt-5 space-y-28 pb-20 relative">
@@ -74,10 +76,10 @@ export default function Home() {
         className="glass-card p-6 md:p-8 relative overflow-hidden"
       >
         <div className="absolute -top-10 -left-10 w-36 h-36 bg-[#ff0055]/12 blur-[80px] rounded-full pointer-events-none" />
-        <SectionHeader flagName="Limited Time" title="FLASH DROPS" />
+        <SectionHeader flagName={t('home.limitedTime')} title={t('home.flashDrops')} />
         <div className="mt-8"><FlashSalesSlider /></div>
         <div className="flex justify-center mt-4">
-          <SiteBtn noMargin text="View All Deals" to="/products" />
+          <SiteBtn noMargin text={t('home.viewAllDeals')} to="/products" />
         </div>
       </motion.div>
 
@@ -88,10 +90,10 @@ export default function Home() {
         <div className="absolute inset-0 border-y border-[#2df8c5]/12 bg-gradient-to-r from-transparent via-[#2df8c5]/4 to-transparent pointer-events-none" />
         <div className="relative z-10">
           <motion.div variants={fadeUp}>
-            <SectionHeader flagName="Arsenal" title="BROWSE UPGRADES" />
+            <SectionHeader flagName={t('home.arsenal')} title={t('home.browseUpgrades')} />
           </motion.div>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mt-10">
-            {CATS.map(cat => (
+            {cats.map(cat => (
               <motion.div key={cat.id} variants={fadeUp} className="hover-lift"
                 onClick={() => navigate(cat.id === 'all' ? '/products' : `/products?category=${cat.id}`)}
               >
@@ -105,7 +107,7 @@ export default function Home() {
       {/* ── Top Tier Gear ── */}
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.06 }} variants={stagger}>
         <motion.div variants={fadeUp}>
-          <SectionHeader isNeedViewAllBtn title="TOP TIER GEAR" flagName="Trending" />
+          <SectionHeader isNeedViewAllBtn title={t('home.topGear')} flagName={t('home.trending')} />
         </motion.div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
           {topGear.map(p => (
@@ -119,7 +121,7 @@ export default function Home() {
       {/* ── Explore Components ── */}
       <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.04 }} variants={stagger}>
         <motion.div variants={fadeUp}>
-          <SectionHeader flagName="Inventory" title="EXPLORE COMPONENTS" />
+          <SectionHeader flagName={t('home.inventory')} title={t('home.exploreComponents')} />
         </motion.div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
           {catalog.map(p => (
@@ -129,7 +131,7 @@ export default function Home() {
           ))}
         </div>
         <div className="flex justify-center mt-10">
-          <SiteBtn noMargin text="Initialize Full Catalog" to="/products" />
+          <SiteBtn noMargin text={t('home.initFullCatalog')} to="/products" />
         </div>
       </motion.div>
 
@@ -138,29 +140,37 @@ export default function Home() {
         className="glass border border-[#7d2df8]/20 p-6 md:p-8 relative overflow-hidden"
       >
         <div className="absolute inset-0 bg-[#7d2df8]/5 blur-[120px] rounded-full -z-10 pointer-events-none" />
-        <SectionHeader flagName="Featured" title="NEXT GEN TECH" />
+        <SectionHeader flagName={t('home.featured')} title={t('home.nextGenTech')} />
         <div className="grid grid-cols-12 gap-5 mt-10">
           <div className="col-span-12 md:col-span-6 max-h-[460px] overflow-hidden border border-[#2df8c5]/20 bg-[#0c0f1a] cursor-pointer hover:border-[#2df8c5]/60 transition-colors"
             onClick={() => navigate('/products?category=prebuilts')}>
             <NewArrivalBox
-              title="Quantum Prebuilts"
-              desc="The ultimate 8K gaming rig. AI rendering, custom loop cooling."
+              title={lang === 'it' ? "Preassemblati Quantici" : "Quantum Prebuilts"}
+              desc={lang === 'it' ? "Rig 8K estremi. Rendering IA, raffreddamento custom loop." : "The ultimate 8K gaming rig. AI rendering, custom loop cooling."}
               imageUrl="/assets/images/ourproductsImages/gaming_laptop.png"
             />
           </div>
           <div className="col-span-12 md:col-span-6 grid grid-cols-2 gap-5 grid-rows-2 max-h-[460px]">
             <div className="col-span-2 overflow-hidden border border-[#ff0055]/20 bg-[#0c0f1a] cursor-pointer hover:border-[#ff0055]/60 transition-colors"
               onClick={() => navigate('/products?category=keyboards')}>
-              <NewArrivalBox imageRight title="Custom Keyboards" desc="Gasket mount, hot-swap, 8K polling."
+              <NewArrivalBox imageRight 
+                title={lang === 'it' ? "Tastiere Custom" : "Custom Keyboards"} 
+                desc={lang === 'it' ? "Gasket mount, hot-swap, polling 8K." : "Gasket mount, hot-swap, 8K polling."}
                 imageUrl="/assets/images/flashsalesImages/Keyboard.png" />
             </div>
             <div className="overflow-hidden border border-[#7d2df8]/20 bg-[#0c0f1a] cursor-pointer hover:border-[#7d2df8]/60 transition-colors"
               onClick={() => navigate('/products?category=headsets')}>
-              <NewArrivalBox title="Studio Audio" desc="Broadcast mics" imageUrl="/assets/images/newarrivalImages/Speakers.png" />
+              <NewArrivalBox 
+                title={lang === 'it' ? "Audio Studio" : "Studio Audio"} 
+                desc={lang === 'it' ? "Microfoni broadcast" : "Broadcast mics"} 
+                imageUrl="/assets/images/newarrivalImages/Speakers.png" />
             </div>
             <div className="overflow-hidden border border-[#2df8c5]/20 bg-[#0c0f1a] cursor-pointer hover:border-[#2df8c5]/60 transition-colors"
               onClick={() => navigate('/products')}>
-              <NewArrivalBox title="RGB Gear" desc="Sync everything" imageUrl="/assets/images/ourproductsImages/red_glow.png" />
+              <NewArrivalBox 
+                title={lang === 'it' ? "RGB Sync" : "RGB Gear"} 
+                desc={lang === 'it' ? "Sincronizza tutto" : "Sync everything"} 
+                imageUrl="/assets/images/ourproductsImages/red_glow.png" />
             </div>
           </div>
         </div>

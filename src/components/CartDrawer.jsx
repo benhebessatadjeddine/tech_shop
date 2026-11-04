@@ -6,7 +6,7 @@ import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
 export default function CartDrawer() {
-  const { cart, cartOpen, cartTotal, closeCart, removeFromCart, changeQty, clearCart } = useStore()
+  const { cart, cartOpen, cartTotal, closeCart, removeFromCart, changeQty, clearCart, formatPrice, t } = useStore()
 
   return (
     <AnimatePresence>
@@ -33,10 +33,10 @@ export default function CartDrawer() {
               <div className="flex items-center gap-3">
                 <HiOutlineShoppingCart className="text-[#2df8c5]" size={22} />
                 <span className="font-mono font-bold text-white uppercase tracking-widest">
-                  Cart <span className="text-[#2df8c5]">({cart.length})</span>
+                  {t('cart.title')} <span className="text-[#2df8c5]">({cart.length})</span>
                 </span>
               </div>
-              <button onClick={closeCart} className="text-slate-400 hover:text-white transition-colors p-1">
+              <button onClick={closeCart} className="text-slate-400 hover:text-white transition-colors p-1" aria-label="Close Cart">
                 <IoClose size={22} />
               </button>
             </div>
@@ -46,12 +46,12 @@ export default function CartDrawer() {
               {cart.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-4 text-slate-500">
                   <HiOutlineShoppingCart size={48} className="opacity-30" />
-                  <p className="font-mono text-sm uppercase tracking-widest">Your cart is empty</p>
+                  <p className="font-mono text-sm uppercase tracking-widest">{t('cart.empty')}</p>
                   <button
                     onClick={closeCart}
                     className="cyber-btn px-6 py-2.5 text-xs"
                   >
-                    Browse Products
+                    {t('cart.browse')}
                   </button>
                 </div>
               ) : (
@@ -65,12 +65,13 @@ export default function CartDrawer() {
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-mono text-slate-200 line-clamp-1 mb-1">{item.title}</p>
-                      <p className="text-[#ff0055] font-bold text-sm">{item.price.toLocaleString()} DA</p>
+                      <p className="text-[#ff0055] font-bold text-sm">{formatPrice(item.price)}</p>
                       {/* Qty controls */}
                       <div className="flex items-center gap-2 mt-2">
                         <button
                           onClick={() => changeQty(item.id, -1)}
                           className="w-7 h-7 flex items-center justify-center border border-[#2df8c5]/30 text-[#2df8c5] hover:bg-[#2df8c5] hover:text-black transition-colors"
+                          aria-label="Decrease quantity"
                         >
                           <FiMinus size={12} />
                         </button>
@@ -78,6 +79,7 @@ export default function CartDrawer() {
                         <button
                           onClick={() => changeQty(item.id, 1)}
                           className="w-7 h-7 flex items-center justify-center border border-[#2df8c5]/30 text-[#2df8c5] hover:bg-[#2df8c5] hover:text-black transition-colors"
+                          aria-label="Increase quantity"
                         >
                           <FiPlus size={12} />
                         </button>
@@ -87,10 +89,11 @@ export default function CartDrawer() {
                       <button
                         onClick={() => removeFromCart(item.id)}
                         className="text-slate-600 hover:text-[#ff0055] transition-colors"
+                        aria-label="Remove item"
                       >
                         <FiTrash2 size={16} />
                       </button>
-                      <p className="text-white font-bold text-sm font-mono">{(item.price * item.qty).toLocaleString()} DA</p>
+                      <p className="text-white font-bold text-sm font-mono">{formatPrice(item.price * item.qty)}</p>
                     </div>
                   </div>
                 ))
@@ -101,21 +104,21 @@ export default function CartDrawer() {
             {cart.length > 0 && (
               <div className="px-6 py-5 border-t border-[#2df8c5]/15 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-mono text-slate-400 uppercase tracking-widest text-sm">Total</span>
-                  <span className="font-black text-2xl text-white font-mono">{cartTotal.toLocaleString()} DA</span>
+                  <span className="font-mono text-slate-400 uppercase tracking-widest text-sm">{t('cart.total')}</span>
+                  <span className="font-black text-2xl text-white font-mono">{formatPrice(cartTotal)}</span>
                 </div>
                 <Link
                   to="/checkout"
                   onClick={closeCart}
                   className="block w-full cyber-btn py-4 text-center text-sm"
                 >
-                  Proceed to Checkout
+                  {t('cart.checkout')}
                 </Link>
                 <button
                   onClick={clearCart}
                   className="w-full py-2.5 text-xs text-slate-500 hover:text-[#ff0055] font-mono uppercase tracking-widest transition-colors"
                 >
-                  Clear Cart
+                  {t('cart.clear')}
                 </button>
               </div>
             )}

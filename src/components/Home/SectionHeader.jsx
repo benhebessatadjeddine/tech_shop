@@ -1,7 +1,10 @@
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { useStore } from '../../context/StoreContext'
 
 export default function SectionHeader({ flagName, title, isNeedViewAllBtn, viewAllTo = '/products' }) {
+    const { t } = useStore()
+
     return (
         <div className="flex justify-between items-end gap-4">
             <div className="flex flex-col gap-3">
@@ -15,7 +18,7 @@ export default function SectionHeader({ flagName, title, isNeedViewAllBtn, viewA
             </div>
             {isNeedViewAllBtn && (
                 <Link to={viewAllTo} className="hidden sm:block cyber-btn px-5 py-2.5 text-xs whitespace-nowrap">
-                    View All
+                    {t('home.viewAll')}
                 </Link>
             )}
         </div>

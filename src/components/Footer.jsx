@@ -8,15 +8,15 @@ import { useStore } from "../context/StoreContext";
 
 export default function Footer() {
     const [email, setEmail] = useState("")
-    const { triggerToast } = useStore()
+    const { triggerToast, t, lang } = useStore()
 
     const handleSubscribe = (e) => {
         e.preventDefault()
         if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
-            triggerToast("Please enter a valid email address")
+            triggerToast(lang === 'it' ? "Inserisci un indirizzo email valido" : "Please enter a valid email address")
             return
         }
-        triggerToast(`Hardware drops intelligence will be sent to ${email}`)
+        triggerToast(lang === 'it' ? `Gli aggiornamenti hardware verranno inviati a ${email}` : `Hardware drops intelligence will be sent to ${email}`)
         setEmail("")
     }
 
@@ -35,10 +35,10 @@ export default function Footer() {
                         <span><span className="text-[#2df8c5]">NEXUS</span><span className="text-white">RIG</span></span>
                     </div>
                     <p className="text-slate-400 font-mono text-sm leading-relaxed max-w-sm">
-                        The ultimate destination for elite gaming setups, components, and peripherals. Build your dream rig with us.
+                        {t('footer.desc')}
                     </p>
                     <div className="flex flex-col gap-2 mt-2">
-                        <span className="text-[#2df8c5] font-mono text-sm font-bold uppercase tracking-widest">Subscribe to Drops</span>
+                        <span className="text-[#2df8c5] font-mono text-sm font-bold uppercase tracking-widest">{t('footer.subscribe')}</span>
                         <form onSubmit={handleSubscribe} className="flex border border-[#2df8c5]/30 focus-within:border-[#2df8c5] transition-colors max-w-sm">
                             <input 
                                 type="email" 
@@ -47,28 +47,30 @@ export default function Footer() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="bg-[#0c0f1a] w-full px-4 py-2 font-mono text-sm text-white outline-none placeholder:text-slate-600" 
                             />
-                            <button type="submit" className="bg-[#2df8c5] text-black px-4 py-2 font-mono text-sm font-bold hover:bg-white transition-colors">Join</button>
+                            <button type="submit" className="bg-[#2df8c5] text-black px-4 py-2 font-mono text-sm font-bold hover:bg-white transition-colors">
+                                {t('footer.join')}
+                            </button>
                         </form>
                     </div>
                 </div>
 
                 <nav className="flex flex-col gap-4">
-                    <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">Support</h6>
-                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">16000 Cyber St, Algiers, AL 16000</span>
-                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">support@nexusrig.dz</span>
-                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">+213 550 00 00 00</span>
+                    <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">{t('footer.support')}</h6>
+                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">{t('footer.address')}</span>
+                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">support@nexusrig.it</span>
+                    <span className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono font-bold">+39 344 486 1409</span>
                 </nav>
 
                 <nav className="flex flex-col gap-4">
-                    <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">Account</h6>
-                    <Link to={'/products'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Shop All</Link>
-                    <Link to={'/signUp'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Register</Link>
-                    <Link to={'/signUp'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Login</Link>
-                    <Link to={'/wishlist'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">Wishlist</Link>
+                    <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">{t('footer.account')}</h6>
+                    <Link to={'/products'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">{t('nav.shop')}</Link>
+                    <Link to={'/signUp'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">{t('nav.signUp')}</Link>
+                    <Link to={'/signUp'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">{t('nav.login')}</Link>
+                    <Link to={'/wishlist'} className="text-sm text-slate-400 hover:text-[#2df8c5] transition-colors font-mono">{t('wishlist.title')}</Link>
                 </nav>
 
                 <nav className="flex flex-col gap-4">
-                    <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">Socials</h6>
+                    <h6 className="text-lg font-bold text-white tracking-widest uppercase font-mono mb-2">{t('footer.socials')}</h6>
                     <div className="flex items-center gap-5">
                         <motion.a href="https://t.me" target="_blank" rel="noopener noreferrer" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" aria-label="Telegram"><FaTelegram size={24} /></motion.a>
                         <motion.a href="https://instagram.com" target="_blank" rel="noopener noreferrer" whileHover={{ y: -3, color: '#2df8c5', filter: 'drop-shadow(0 0 8px #2df8c5)' }} className="cursor-pointer text-slate-500 transition-colors" aria-label="Instagram"><FaInstagram size={24} /></motion.a>
@@ -79,7 +81,7 @@ export default function Footer() {
 
             <div className="container mx-auto px-4 mt-16 text-center text-sm text-slate-500 pt-8 font-mono relative">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-[1px] bg-gradient-to-r from-transparent via-[#ff0055]/30 to-transparent"></div>
-                &copy; {new Date().getFullYear()} NexusRig. All systems operational.
+                &copy; {new Date().getFullYear()} NexusRig. {t('footer.rights')}
             </div>
         </footer>
     )

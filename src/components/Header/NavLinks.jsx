@@ -11,14 +11,14 @@ const itemVariants = {
 
 const NavLinks = memo(({ className, toggleMenu }) => {
   const { pathname } = useLocation()
-  const { user } = useStore()
+  const { user, t } = useStore()
 
   const links = [
-    { to: '/', label: 'Home' },
-    { to: '/products', label: 'Shop' },
-    { to: '/about', label: 'About' },
-    { to: '/contact', label: 'Contact' },
-    { to: '/signUp', label: user ? 'Account' : 'Sign Up' },
+    { to: '/', label: t('nav.home') },
+    { to: '/products', label: t('nav.shop') },
+    { to: '/about', label: t('nav.about') },
+    { to: '/contact', label: t('nav.contact') },
+    { to: '/signUp', label: user ? t('nav.account') : t('nav.signUp') },
   ]
 
   return (
